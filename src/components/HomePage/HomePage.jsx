@@ -1,4 +1,4 @@
-import ChatList from "./ChatList";
+import ChatList from "../ChatList/ChatList";
 
 
 export default function HomePage() {

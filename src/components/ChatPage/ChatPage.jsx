@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import OpenAI from "openai";
 import Markdown from 'react-markdown';
-import ChatList from "./ChatList";
+import ChatList from "../ChatList/ChatList";
 import { Link } from 'react-router';
-import MessageBubble from "./MessageBubble";
+import MessageBubble from "../MessageBubble/MessageBubble";
+import './ChatPage.css';
 
 // displays a side bar with the chat list and an individual chat on the right
 // manages the chat 
@@ -46,6 +47,7 @@ export default function ChatPage() {
     const completion = await client.chat.completions.create({
       model: myModel,
       messages: [
+          ...messages,
           {
               role: "user",
               content: userInput,
@@ -71,8 +73,15 @@ export default function ChatPage() {
         : <Markdown>{output}</Markdown>
         }
         </div>
-        <div id="chat-input">
-          <textarea name='userInput' value={userInput} onChange={(e) => setUserInput(e.target.value)}></textarea>
+        <div id="chat-input-box">
+          <div id="chat-input-field">
+            <textarea 
+              name='userInput' 
+              value={userInput} 
+              onChange={(e) => setUserInput(e.target.value)}>
+                Ask anything...
+            </textarea>
+          </div>
           <button onClick={() => sendMessage(userInput)}>send a request</button>
         </div>
       </div>

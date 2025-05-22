@@ -1,0 +1,7 @@
+#chat-list {
+    margin-bottom: 3rem;
+}
+
+.chat-list-item>* {
+    margin: 0.3rem;
+}

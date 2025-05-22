@@ -1,4 +1,5 @@
 import Markdown from 'react-markdown';
+import './MessageBubble.css';
 
 export default function MessageBubble(props) {
     // displays one chat message

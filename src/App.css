@@ -16,31 +16,6 @@ main {
   text-align: center;
 }
 
-nav {
-  flex-basis: 8rem;
-  flex-grow: 0;
-  flex-shrink: 0;
-  display: flex;
-  background-color: white;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0rem 2rem;
-  box-shadow: 2px 0px 3px gray;
-}
-
-nav > div:last-child {
-  display: flex;
-  gap: 5rem;
-}
-
-footer {
-  background-color: white;
-  box-shadow: 2px 0px 3px gray;
-  text-align: center;
-  height: 6rem;
-  flex: 6rem 0 0;
-}
-
 .two-column-container {
   display: flex;
   width: 100%;
@@ -61,87 +36,7 @@ footer {
   text-align: center;
 }
 
-#chat-list {
-  margin-bottom: 3rem;
-}
-
-.chat-list-item > * {
-  margin: 0.3rem;
-}
-
-#profile {
-  text-align: center;
-}
-
-#about {
-  text-align: center;
-}
-
-#chat-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 0 0rem 1rem;
-  gap: 2rem;
-  height: calc(100vh - 8rem - 6rem);
-}
-
-.message {
-  background-color: white;
-  padding: 1rem;
-  margin: 1rem;
-  border-radius: 2rem;
-  max-width: 70%;
-  text-align: justify;
-}
-
-.user-message {
-  width: fit-content;
-  margin-left: auto;
-  background-color: rgb(240, 255, 248);
-  box-shadow: -2px 0px 3px rgb(195, 195, 195);
-  border-radius: 0 2rem 0 2rem;
-}
-
-.ai-message {
-  margin-right: auto;
-  width: fit-content;
-  box-shadow: 2px 0px 3px rgb(195, 195, 195);
-  border-radius: 2rem 0 2rem 0;
-}
-
-.nav-links a {
-  text-decoration: none;
-  color: black;
-}
-
-.nav-links a:hover {
-  text-decoration: underline;
-}
-
-#chat-input {
-  flex-basis: 12rem;
-  flex-shrink: 0;
-  flex-grow: 0;
-}
-
-#chat-input > textarea {
-  min-width: 50rem;
-  min-height: 10rem;
-  border: none;
-  box-shadow: 0px 2px 3px rgb(195, 195, 195);
-}
-
-#chatbox {
-  display: flex;
-  flex-direction: column;
-  background-color: rgba(246, 117, 117, 0.224);
-  height: calc(100vh - 8rem - 9rem - 12rem);
-  padding: 0 1rem 0;
-  overflow-y: scroll;
-  flex: 1;
-}
-
-#chatbox > *:first-child {
-  margin-top: auto;
+button {
+  margin: 0.5rem;
+  padding: 0.5rem;
 }

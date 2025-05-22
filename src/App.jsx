@@ -1,14 +1,14 @@
 import { BrowserRouter, Route, Routes } from "react-router";
-import Layout from "./components/Layout";
-import SignIn from "./components/SignIn";
-import SignUp from "./components/SignUp";
-import HomePage from "./components/HomePage";
-import ChatPage from "./components/ChatPage";
-import Profile from "./components/Profile";
+import Layout from "./components/Layout/Layout";
+import SignIn from "./components/SignIn/SignIn";
+import SignUp from "./components/SignUp/SignUp";
+import HomePage from "./components/HomePage/HomePage";
+import ChatPage from "./components/ChatPage/ChatPage";
+import Profile from "./components/Profile/Profile";
 import './App.css';
-import APIkeyForm from "./components/APIkeyForm";
-import AboutPage from "./components/AboutPage";
-import ChatList from "./components/ChatList";
+import APIkeyForm from "./components/APIkeyForm/APIkeyForm";
+import AboutPage from "./components/AboutPage/AboutPage";
+import ChatList from "./components/ChatList/ChatList";
 
 
 function App() {

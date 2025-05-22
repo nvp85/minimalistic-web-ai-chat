@@ -1,5 +1,8 @@
 import { useState } from 'react';
 import { Link } from 'react-router';
+import { FiEdit3 } from "react-icons/fi";
+import { RiDeleteBinLine } from "react-icons/ri";
+import './ChatList.css';
 
 export default function ChatList() {
     // displays the list of chats
@@ -39,8 +42,8 @@ export default function ChatList() {
             <h3>Your chats</h3>
             {chats.map(chat => <p key={chat.id} className='chat-list-item'>
                 <Link to={`/chats/${chat.id}`} >{chat.title}</Link>
-                <button>rename</button>
-                <button>delete</button>
+                <FiEdit3 />
+                <RiDeleteBinLine />
                 </p>)}
         </div>
     )

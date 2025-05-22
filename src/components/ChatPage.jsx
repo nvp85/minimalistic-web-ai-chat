@@ -36,7 +36,8 @@ export default function ChatPage() {
     {
       "role": "assistant",
       "content": "A fun fact about cats is that their nose prints are unique, just like human fingerprints. This makes each cat's nose pattern unique and helps with identification. Another fun fact is that cats can make over 100 different vocalizations, while dogs typically only have about 10."
-    }
+    },
+
   ]
 
   const client = new OpenAI({apiKey: myApiKey, dangerouslyAllowBrowser: true});

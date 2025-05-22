@@ -8,6 +8,8 @@ import Profile from "./components/Profile";
 import './App.css';
 import APIkeyForm from "./components/APIkeyForm";
 import AboutPage from "./components/AboutPage";
+import ChatList from "./components/ChatList";
+
 
 function App() {
   return (
@@ -21,6 +23,7 @@ function App() {
           <Route path="profile" element={<Profile />} />
           <Route path="api-key" element={<APIkeyForm />} />
           <Route path="about" element={<AboutPage />} />
+          <Route path="chats" element={<ChatList />} />
         </Route>
       </Routes>
     </BrowserRouter>

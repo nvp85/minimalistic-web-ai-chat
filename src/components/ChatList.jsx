@@ -39,6 +39,8 @@ export default function ChatList() {
             <h3>Your chats</h3>
             {chats.map(chat => <p key={chat.id} className='chat-list-item'>
                 <Link to={`/chats/${chat.id}`} >{chat.title}</Link>
+                <button>rename</button>
+                <button>delete</button>
                 </p>)}
         </div>
     )

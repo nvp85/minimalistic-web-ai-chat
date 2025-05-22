@@ -7,6 +7,7 @@ import ChatPage from "./components/ChatPage";
 import Profile from "./components/Profile";
 import './App.css';
 import APIkeyForm from "./components/APIkeyForm";
+import AboutPage from "./components/AboutPage";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="chats/:uuid" element={<ChatPage />} />
           <Route path="profile" element={<Profile />} />
           <Route path="api-key" element={<APIkeyForm />} />
+          <Route path="about" element={<AboutPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

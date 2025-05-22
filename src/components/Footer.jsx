@@ -1,9 +1,8 @@
 
-
 export default function Footer() {
     return (
         <footer>
-            <p>Footer goes here</p>
+            <p>Powered by <a href="https://platform.openai.com/docs/api-reference/chat" target="_blank">OpenAI API</a></p>
         </footer>
     )
 }

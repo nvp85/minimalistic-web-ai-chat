@@ -1,10 +1,15 @@
-
+import Markdown from 'react-markdown';
 
 export default function MessageBubble(props) {
     // displays one chat message
+    const message = props.message;
+    if (message.role === "developer") {
+        return;
+    }
+    const messageClass = message.role === "user" ? "user-message" : "ai-message"; 
     return (
-        <div>
-            <p>Message goes here</p>
+        <div className={`message ${messageClass}`}>
+            <Markdown>{ message.content }</Markdown>
         </div>
     ) 
 }

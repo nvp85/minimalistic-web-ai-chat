@@ -3,11 +3,16 @@ import { Link } from "react-router";
 export default function Navbar() {
     return (
         <nav>
-            <p>Naviagation bar goes here</p>
-            <Link to="/"> Home |</Link>
-            <Link to="chats/1"> Chat page |</Link>
-            <Link to="register"> Sign Up |</Link>
-            <Link to="login"> Sign In </Link>
+            <div className="nav-links">
+                <Link to="/">Logo / Home</Link>
+            </div>
+            <div className="nav-links">
+                <Link to="api-key">API key</Link>
+                <Link to="about">About</Link>
+                <Link to="profile">Profile</Link>
+                <Link to="register">Sign Up</Link>
+                <Link to="login">Sign In</Link>
+            </div>
         </nav>
     )
 }

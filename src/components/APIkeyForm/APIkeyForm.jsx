@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 
 export default function APIkeyForm() {
     // takes users api key and saves it into the local storage
-    const [apiKey, setApiKey] = useState(null);
+    const [apiKey, setApiKey] = useState("");
     const [ isStored, setIsStored ] = useState(false);
 
     useEffect(() => {

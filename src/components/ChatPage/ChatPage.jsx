@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import OpenAI from "openai";
 import Markdown from 'react-markdown';
 import ChatList from "../ChatList/ChatList";
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import MessageBubble from "../MessageBubble/MessageBubble";
 import ChatTextarea from "../ChatTextarea/ChatTextarea";
 import './ChatPage.css';
@@ -10,40 +10,50 @@ import './ChatPage.css';
 // displays a side bar with the chat list and an individual chat on the right
 // manages the chat 
 export default function ChatPage() {
-	const myApiKey = "";
+	const [myApiKey, setMyApiKey] = useState("");
 	const myModel = "gpt-4o-mini";
-	const [output, setOutput] = useState("");
-	const [userInput, setUserInput] = useState("");
 	const [loading, setLoading] = useState(false);
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		const storedKey = localStorage.getItem("apiKey");
+		if (storedKey) {
+			setMyApiKey(storedKey);
+		} else {
+			navigate("/api-key");
+		}
+	}, []);
 
 	// extracts uuid of the chat and fetch its messages from the backend
 	// dummy messages
-	const messages = [
+	const [messages, setMessages] = useState(JSON.parse(localStorage.getItem("messages")) || [
 		{
 			"role": "developer",
-			"content": "You are a helpful assistant."
-		},
-		{
-			"role": "user",
-			"content": "Hello!"
-		},
-		{
-			"role": "assistant",
-			"content": "Hello! How can I help you?"
-		},
-		{
-			"role": "user",
-			"content": "Tell me one fun fact about cats."
-		},
-		{
-			"role": "assistant",
-			"content": "A fun fact about cats is that their nose prints are unique, just like human fingerprints. This makes each cat's nose pattern unique and helps with identification. Another fun fact is that cats can make over 100 different vocalizations, while dogs typically only have about 10."
-		},
+			"content": "Be succinct. Answer in 3 sentences."
+		}
+	]);
 
-	]
+	useEffect(() => {
+		localStorage.setItem("messages", JSON.stringify(messages));
+	}, [messages])
 
 	const client = new OpenAI({ apiKey: myApiKey, dangerouslyAllowBrowser: true });
 	async function sendMessage(userInput) {
+		if (!myApiKey) {
+			navigate("/api-key");
+			return;
+		}
+		if (!userInput) {
+			alert("input is empty");
+			return;
+		}
+		setMessages(prev => [
+			...prev, 
+			{
+				role: "user",
+				content: userInput
+			}
+		]);
 		setLoading(true);
 		const completion = await client.chat.completions.create({
 			model: myModel,
@@ -56,7 +66,13 @@ export default function ChatPage() {
 			],
 			max_tokens: 200
 		});
-		setOutput(completion.choices[0].message.content);
+		setMessages(prev => [
+			...prev, 
+			{
+				role:"assistant",
+				content: completion.choices[0].message.content
+			}
+		]);
 		setLoading(false);
 	}
 
@@ -68,10 +84,10 @@ export default function ChatPage() {
 			</div>
 			<div id="chat-container">
 				<div id="chatbox">
-					{messages.map(message => <MessageBubble message={message} />)}
+					{messages.map((message, index) => <MessageBubble message={message} key={index} />)}
 					{loading
 						? <p>generating response...</p>
-						: <Markdown>{output}</Markdown>
+						: null
 					}
 				</div>
 				<div id="chat-input-box">

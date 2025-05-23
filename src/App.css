@@ -22,21 +22,28 @@ main {
   height: 100%;
 }
 
-.two-column-container > div:first-child {
+.two-column-container>div:first-child {
   flex-basis: 25%;
   flex-grow: 0;
   flex-shrink: 0;
-  height: 100%;
   border-right: 0.1rem solid lightgrey;
   text-align: center;
+  height: calc(100vh - 8rem - 6rem);
 }
 
-.two-column-container > div:last-child {
+.two-column-container>div:last-child {
   flex-grow: 1;
   text-align: center;
+  height: calc(100vh - 8rem - 6rem);
 }
 
 button {
   margin: 0.5rem;
   padding: 0.5rem;
+}
+
+@media (max-width: 1200px) {
+  .two-column-container>div:first-child {
+    display: none;
+  }
 }

@@ -1,4 +1,6 @@
 import ChatList from "../ChatList/ChatList";
+import ChatTextarea from "../ChatTextarea/ChatTextarea";
+import './HomePage.css';
 
 
 export default function HomePage() {
@@ -12,8 +14,9 @@ export default function HomePage() {
             <div>
                 <ChatList />            
             </div>
-            <div>
-                <p>Input fields to start a new chat</p>
+            <div id="right-column">
+
+                <ChatTextarea />
             </div>
         </div>
     )

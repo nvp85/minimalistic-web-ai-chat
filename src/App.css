@@ -68,6 +68,15 @@ button {
   padding: 0 1rem;
 }
 
+.eye-btn {
+  background-color: transparent;
+  border: none;
+  width: fit-content;
+  position: absolute;
+  align-self: flex-end;
+  top: 18.5rem;
+}
+
 @media (max-width: 1200px) {
   .two-column-container>div:first-child {
     display: none;

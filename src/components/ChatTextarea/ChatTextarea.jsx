@@ -15,7 +15,11 @@ export default function ChatTextarea(props) {
                 onChange={(e) => setUserInput(e.target.value)}
                 placeholder="Ask anything...">
             </textarea>
-            <button onClick={() => handleClick(userInput)}>Send</button>
+            <button onClick={() => {
+                    handleClick(userInput);
+                    setUserInput("");
+                }
+            }>Send</button>
         </div>
     )
 }

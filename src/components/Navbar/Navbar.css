@@ -14,13 +14,20 @@ nav {
 nav>div:last-child {
     display: flex;
     gap: 5rem;
+    height: 100%;
 }
 
 .nav-links a {
     text-decoration: none;
     color: black;
+    align-self: center;
 }
 
 .nav-links a:hover {
     text-decoration: underline;
+}
+
+.nav-links > button {
+    align-self: center;
+    height: 4rem;
 }

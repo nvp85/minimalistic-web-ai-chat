@@ -9,24 +9,31 @@ import './App.css';
 import APIkeyForm from "./components/APIkeyForm/APIkeyForm";
 import AboutPage from "./components/AboutPage/AboutPage";
 import ChatList from "./components/ChatList/ChatList";
+import UserProvider from "./hooks/UserProvider";
+import ProtectedRoutes from "./components/ProtectedRoutes/ProtectedRoutes";
 
-
+// TODO: protected routes
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route element={<Layout />}>
-          <Route path="login" element={<SignIn />} />
-          <Route path="register" element={<SignUp />} />
-          <Route path="" element={<HomePage />} />
-          <Route path="chats/:uuid" element={<ChatPage />} />
-          <Route path="profile" element={<Profile />} />
-          <Route path="api-key" element={<APIkeyForm />} />
-          <Route path="about" element={<AboutPage />} />
-          <Route path="chats" element={<ChatList />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <UserProvider>
+        <BrowserRouter>
+            <Routes>
+                <Route element={<Layout />}>
+                    <Route path="login" element={<SignIn />} />
+                    <Route path="register" element={<SignUp />} />
+                    <Route path="about" element={<AboutPage />} />
+
+                    <Route element=<ProtectedRoutes /> >
+                        <Route path="" element={<HomePage />} />
+                        <Route path="chats/:uuid" element={<ChatPage />} />
+                        <Route path="chats" element={<ChatList />} />
+                        <Route path="profile" element={<Profile />} />
+                        <Route path="api-key" element={<APIkeyForm />} />
+                    </Route>
+                </Route>
+            </Routes>
+        </BrowserRouter>
+    </UserProvider>
   )
 
 }

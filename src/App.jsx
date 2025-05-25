@@ -25,7 +25,7 @@ function App() {
 
                     <Route element=<ProtectedRoutes /> >
                         <Route path="" element={<HomePage />} />
-                        <Route path="chats/:uuid" element={<ChatPage />} />
+                        <Route path="chats/:id" element={<ChatPage />} />
                         <Route path="chats" element={<ChatList />} />
                         <Route path="profile" element={<Profile />} />
                         <Route path="api-key" element={<APIkeyForm />} />

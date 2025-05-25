@@ -20,9 +20,10 @@ function subscribe(callback) {
 
 export default function UserProvider({children}) {
     const storedUser = useSyncExternalStore(subscribe, getSnapshot);
-    console.log(children);
+
     // save changes in the user to local storage
     const saveUser = (user) => {
+        user = JSON.stringify(user);
         localStorage.setItem("user", user);
         window.dispatchEvent(new StorageEvent('storage', {key: "user", newValue: user}));
     }

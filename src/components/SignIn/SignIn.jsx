@@ -1,8 +1,9 @@
 import users from "../../assets/users.json";
-import { Link, useNavigate } from 'react-router';
+import { Link, useNavigate, Navigate } from 'react-router';
 import { useState, useEffect } from "react";
 import { LuEye, LuEyeOff } from "react-icons/lu";
 import './SignIn.css';
+import { useUser } from "../../hooks/UserProvider";
 
 export default function SignIn() {
     const [formData, setFormData] = useState({
@@ -10,26 +11,25 @@ export default function SignIn() {
         password: "qwerty123"
     });
     const [showPassword, setShowPassword] = useState(false);
+    const storedUser = useUser();
     const [error, setError] = useState("");
     const navigate = useNavigate();
 
     // if there is an info in the local storage then user is logged in
-    useEffect(() => {
-        const storedUser = JSON.parse(localStorage.getItem("user"));
-        if (storedUser) {
-            navigate("/profile");
-        }
-    }, []);
-
+    if (storedUser.storedUser) {
+        return <Navigate to='/' />
+    }
+    
+    console.log("rendering");
     function handleSubmit(e) {
         e.preventDefault();
         // check if there is a matching user in the json
-        const storedUser = users.find(user => user.email === formData.email);
-        if (!storedUser || storedUser.password !== formData.password) {
+        const user = users.find(user => user.email === formData.email);
+        if (!user || user.password !== formData.password) {
             setError("Error: invalid credentials.");
             return;
         }
-        localStorage.setItem("user", JSON.stringify(storedUser));
+        storedUser.saveUser(user);
         navigate("/");
     }
 
@@ -63,7 +63,7 @@ export default function SignIn() {
                     onChange={handleChange}
                     required 
                     placeholder="Password"/>
-                <button type="button" onClick={togglePassword}>
+                <button type="button" className="eye-btn" onClick={togglePassword}>
                     {showPassword ? <LuEye /> : <LuEyeOff /> }
                 </button>
                 <button type="submit" onClick={handleSubmit}>submit</button>

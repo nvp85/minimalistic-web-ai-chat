@@ -1,0 +1,28 @@
+{
+    "207c75a6-327a-4231-8e86-290d48f5eed7": [
+        {
+            "role": "developer",
+            "content": "Be succinct. Answer in 3-5 sentences."
+        },
+        {
+            "role": "user",
+            "content": "what does useRef do in react?"
+        },
+        {
+            "role": "assistant",
+            "content": "In React, `useRef` is a hook that creates a mutable object that persists for the full lifetime of a component. It is commonly used to directly access and manipulate DOM elements without triggering re-renders. Additionally, `useRef` can store any mutable value similar to an instance variable, which remains constant between renders."
+        },
+        {
+            "role": "user",
+            "content": "can I use it to scroll down to the bottom of a div?"
+        },
+        {
+            "role": "assistant",
+            "content": "Yes, you can use `useRef` to scroll to the bottom of a div in React. By creating a ref with `useRef` and attaching it to the target div, you can call the scroll method (e.g., `scrollIntoView` or setting `scrollTop`) to position the view at the bottom. This is particularly useful for chat applications or dynamic content where new elements are added."
+        }
+    ],
+    "21f4f79e-feb4-4876-9e3a-f2b02bec3c45": [],
+    "83ee66e5-5650-41a1-bda6-660eaa2f1a8c": [],
+    "fa1b85c1-8216-418e-8a53-5014ba3b3aa6": [],
+    "8ef8723f-1626-4eab-9851-189bc6766bf6": []
+}

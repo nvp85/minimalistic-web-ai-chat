@@ -3,33 +3,6 @@
         "id": 1,
         "name": "Jane Doe",
         "email": "demoUser@example.com",
-        "password": "qwerty123",
-        "chats": [
-            {
-                "uuid": "207c75a6-327a-4231-8e86-290d48f5eed7",
-                "title": "The useRef hook in React",
-                "lastModified": ""
-            },
-            {
-                "uuid": "21f4f79e-feb4-4876-9e3a-f2b02bec3c45",
-                "title": "Chicken recipes",
-                "lastModified": ""
-            },
-            {
-                "uuid": "83ee66e5-5650-41a1-bda6-660eaa2f1a8c",
-                "title": "Dummy chat 1",
-                "lastModified": ""
-            },
-            {
-                "uuid": "fa1b85c1-8216-418e-8a53-5014ba3b3aa6",
-                "title": "Dummy chat 2",
-                "lastModified": ""
-            },
-            {
-                "uuid": "8ef8723f-1626-4eab-9851-189bc6766bf6",
-                "title": "Dummy chat 3",
-                "lastModified": ""
-            }
-        ]
+        "password": "qwerty123"
     }
 ]

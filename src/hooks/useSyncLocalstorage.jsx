@@ -1,7 +1,7 @@
 import { useSyncExternalStore } from "react";
 
 
-export default function useSyncLocalstorage(key) {
+export default function useSyncLocalstorage(key, initialValue) {
     let lastSnapshot;
     const getSnapshot = () => {
         const currentValue = localStorage.getItem(key);
@@ -13,6 +13,10 @@ export default function useSyncLocalstorage(key) {
     const subscribe = (callback) => {
         window.addEventListener('storage', callback);
         return () => window.removeEventListener('storage', callback);
+    }
+
+    if (!localStorage.getItem(key)) {
+        localStorage.setItem(key, initialValue);
     }
     const storedValue = useSyncExternalStore(subscribe, getSnapshot);
 
@@ -26,5 +30,6 @@ export default function useSyncLocalstorage(key) {
         localStorage.removeItem(key);
         window.dispatchEvent(new StorageEvent('storage', {key: key, newValue: null}));
     }
+    
     return [storedValue, setValue, removeValue];
 }

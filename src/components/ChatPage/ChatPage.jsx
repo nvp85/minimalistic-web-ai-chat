@@ -19,6 +19,7 @@ export default function ChatPage() {
 	const [chats, setChats, removeChats] = useSyncLocalstorage("chats", chatsData.filter(chat => chat.userId == storedUser.id));
 	const [myApiKey, setMyApiKey] = useState("");
 	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState("");
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -32,31 +33,23 @@ export default function ChatPage() {
 
 	// extracts uuid of the chat and fetch its messages from the backend
 	const { id } = useParams();
-	console.log("here current id is " + id)
-	const chat = chats.find(chat => chat.id == id);
-	if (!chat || storedUser.id != chat.userId) {
-		return (<p className="error">Error: No chat was found</p>)
+	if (chats) {
+		const chat = chats.find(chat => chat.id == id);
+		if (!chat || storedUser.id != chat.userId) {
+			setError("No chat was found.");
+		}
+	} else {
+		setError("No chats were found.");
 	}
+
 
 	const [messages, setMessages, removeMessages] = useSyncLocalstorage(id, messagesData[id] || []);
-
-	function deleteMessages(){
-		console.log("removing the current messages")
-		removeMessages();
-		navigate("/");
-		console.log("end of execution")
-	}
 
 	async function handleSubmit(userInput) {
 		if (!myApiKey) {
 			navigate("/api-key");
 			return;
 		}
-		if (!userInput) {
-			alert("input is empty");
-			return;
-		}
-
 		const convo = [
 			...messages,
 			{
@@ -75,6 +68,13 @@ export default function ChatPage() {
 			}
 		]);
 		setLoading(false);
+	}
+	if (error) {
+		return (
+			<div>
+				<p className="red-text">{error}</p>
+			</div>
+		)
 	}
 
 	return (

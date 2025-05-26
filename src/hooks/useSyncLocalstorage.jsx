@@ -16,7 +16,7 @@ export default function useSyncLocalstorage(key, initialValue) {
     }
 
     if (!localStorage.getItem(key)) {
-        localStorage.setItem(key, initialValue);
+        localStorage.setItem(key, JSON.stringify(initialValue));
     }
     const storedValue = useSyncExternalStore(subscribe, getSnapshot);
 

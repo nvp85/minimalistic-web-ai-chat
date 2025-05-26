@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
-import OpenAI from "openai";
-import Markdown from 'react-markdown';
 import ChatList from "../ChatList/ChatList";
-import { Link, useNavigate, useParams } from 'react-router';
+import { Link, useNavigate, useParams, useLocation } from 'react-router';
 import MessageBubble from "../MessageBubble/MessageBubble";
 import ChatTextarea from "../ChatTextarea/ChatTextarea";
 import './ChatPage.css';
@@ -11,16 +9,19 @@ import messagesData from '../../assets/messages.json'
 import { useUser } from "../../hooks/UserProvider";
 import useSyncLocalstorage from '../../hooks/useSyncLocalstorage';
 import sendMessage from "../../api/api";
+import { PiSpinnerGap } from "react-icons/pi";
 
 // displays a side bar with the chat list and an individual chat on the right
 // manages the chat
 export default function ChatPage() {
-	const {storedUser, saveUser, removeUser} = useUser();
+	const { storedUser } = useUser();
 	const [chats, setChats, removeChats] = useSyncLocalstorage("chats", chatsData.filter(chat => chat.userId == storedUser.id));
 	const [myApiKey, setMyApiKey] = useState("");
-	const [loading, setLoading] = useState(false);
+	const location = useLocation();
+	const [loading, setLoading] = useState(location.state ? location.state.generating : false);
 	const [error, setError] = useState("");
 	const navigate = useNavigate();
+	
 
 	useEffect(() => {
 		const storedKey = localStorage.getItem("apiKey");
@@ -42,8 +43,13 @@ export default function ChatPage() {
 		setError("No chats were found.");
 	}
 
-
 	const [messages, setMessages, removeMessages] = useSyncLocalstorage(id, messagesData[id] || []);
+
+
+	if (messages.at(-1).role === "assistant" && loading) {
+		setLoading(false);
+	}
+	
 
 	async function handleSubmit(userInput) {
 		if (!myApiKey) {
@@ -87,9 +93,7 @@ export default function ChatPage() {
 				<div id="chatbox">
 					{messages.map((message, index) => <MessageBubble message={message} key={index} />)}
 					{loading
-						? <p>generating response...</p>
-						: null
-					}
+						&& <p>generating response <PiSpinnerGap/></p>}
 				</div>
 				<div id="chat-input-box">
                     <ChatTextarea handleClick={handleSubmit} />

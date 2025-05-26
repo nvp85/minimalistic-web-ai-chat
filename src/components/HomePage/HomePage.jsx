@@ -57,7 +57,7 @@ export default function HomePage() {
         // sets the value before navigating - it will be available on the chat page
         // and it will subscribe to its changes
         localStorage.setItem(chat.id, JSON.stringify(convo));
-        navigate(`chats/${chatId}`);
+        navigate(`chats/${chatId}`, {state: {generating: true}});
 
         const response = await sendMessage(myApiKey, convo);
         convo.push({

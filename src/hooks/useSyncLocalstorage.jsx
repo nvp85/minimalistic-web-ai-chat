@@ -1,7 +1,7 @@
 import { useSyncExternalStore } from "react";
 
 
-export default function useSyncLocalstorage(key, initialValue) {
+export default function useSyncLocalstorage(key, initialValue=null) {
     let lastSnapshot;
     const getSnapshot = () => {
         const currentValue = localStorage.getItem(key);
@@ -15,7 +15,7 @@ export default function useSyncLocalstorage(key, initialValue) {
         return () => window.removeEventListener('storage', callback);
     }
 
-    if (!localStorage.getItem(key)) {
+    if (!localStorage.getItem(key) && initialValue) {
         localStorage.setItem(key, JSON.stringify(initialValue));
     }
     const storedValue = useSyncExternalStore(subscribe, getSnapshot);

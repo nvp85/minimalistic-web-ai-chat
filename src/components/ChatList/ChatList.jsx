@@ -3,15 +3,17 @@ import { Link, useNavigate } from 'react-router';
 import { FiEdit3 } from "react-icons/fi";
 import { RiDeleteBinLine } from "react-icons/ri";
 import './ChatList.css';
-import { useEffect } from 'react';
 import useSyncLocalstorage from '../../hooks/useSyncLocalstorage';
+import chatsData from '../../assets/chats.json';
+import { useUser } from '../../hooks/UserProvider';
 
-export default function ChatList({currentChatId = null, deleteMessages = null }) {
+export default function ChatList({currentChatId = null }) {
     // displays the list of chats
     // handles renaming and deletion of a chat
-    // chat is an object that has a title and an uuid
+    // chat is an object that has a title, id, userId, and lastModified properties
     // chats is an array of objects 
-    const [chats, setChats, removeChats] = useSyncLocalstorage("chats");
+    const {storedUser, saveUser, removeUser} = useUser();
+    const [chats, setChats, removeChats] = useSyncLocalstorage("chats", chatsData.filter(chat => chat.userId == storedUser.id));
     const displayedChats = chats.toSorted((a, b) => b.lastModified - a.lastModified);
     const navigate = useNavigate();
 

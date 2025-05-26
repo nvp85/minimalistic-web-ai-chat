@@ -83,3 +83,7 @@ button {
     display: none;
   }
 }
+
+.red-text {
+  color: red;
+}

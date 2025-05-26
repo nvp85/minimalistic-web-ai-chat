@@ -80,7 +80,7 @@ export default function ChatPage() {
 	return (
 		<div className="two-column-container">
 			<div>
-				<ChatList currentChatId={id} deleteMessages={deleteMessages}/>
+				<ChatList currentChatId={id} />
 				<p><Link to="/">Start new chat</Link></p>
 			</div>
 			<div id="chat-container">

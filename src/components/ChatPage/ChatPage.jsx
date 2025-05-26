@@ -6,14 +6,17 @@ import { Link, useNavigate, useParams } from 'react-router';
 import MessageBubble from "../MessageBubble/MessageBubble";
 import ChatTextarea from "../ChatTextarea/ChatTextarea";
 import './ChatPage.css';
-import chats from '../../assets/chats.json';
+import chatsData from '../../assets/chats.json';
 import messagesData from '../../assets/messages.json'
 import { useUser } from "../../hooks/UserProvider";
+import { useSyncLocalstorage } from '../../hooks/useSyncLocalstorage';
 
 // displays a side bar with the chat list and an individual chat on the right
 // manages the chat
 export default function ChatPage() {
 	const {storedUser, saveUser, removeUser} = useUser();
+	const [chats, setChats] = useState(JSON.parse(localStorage.getItem("chats")) || 
+        chatsData.filter(chat => chat.userId == manageUser.storedUser.id));
 	const [myApiKey, setMyApiKey] = useState("");
 	const myModel = "gpt-4o-mini";
 	const [loading, setLoading] = useState(false);
@@ -36,14 +39,23 @@ export default function ChatPage() {
 		return (<p className="error">Error: No chat was found</p>)
 	}
 
-	const [messages, setMessages] = useState(messagesData[id] || []);
+	const [messages, setMessages] = useState([]);
 
 	useEffect(() => {
 		const storedMessages = JSON.parse(localStorage.getItem(id));
-		if (storedMessages) {
+		if (!storedMessages && !messagesData[id]) {
+			// this should not happen
+			throw new Error("messages are undefined");
+		} else if (!messagesData[id]) {
 			setMessages(storedMessages);
-		} 
-	}, []);
+		} else if (!storedMessages || storedMessages.length < messagesData[id].length) {
+			console.log("one");
+			setMessages(messagesData[id]);
+		} else {
+			setMessages(storedMessages);
+			console.log("two", storedMessages, messagesData[id]);
+		}
+	}, [id]);
 
 	// if we have another tab with the app open and it changes the localStorage messages
 	// it will be not noticed by the first tab
@@ -94,7 +106,7 @@ export default function ChatPage() {
 	return (
 		<div className="two-column-container">
 			<div>
-				<ChatList />
+				<ChatList chats={chats}/>
 				<p><Link to="/">Start new chat</Link></p>
 			</div>
 			<div id="chat-container">

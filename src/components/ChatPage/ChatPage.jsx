@@ -32,16 +32,20 @@ export default function ChatPage() {
 
 	// extracts uuid of the chat and fetch its messages from the backend
 	const { id } = useParams();
-
+	console.log("here current id is " + id)
 	const chat = chats.find(chat => chat.id == id);
 	if (!chat || storedUser.id != chat.userId) {
 		return (<p className="error">Error: No chat was found</p>)
 	}
 
-	const [messages, setMessages, removeMessage] = useSyncLocalstorage(id, messagesData[id] || []);
+	const [messages, setMessages, removeMessages] = useSyncLocalstorage(id, messagesData[id] || []);
 
-	// if we have another tab with the app open and it changes the localStorage messages
-	// it will be not noticed by the first tab
+	function deleteMessages(){
+		console.log("removing the current messages")
+		removeMessages();
+		navigate("/");
+		console.log("end of execution")
+	}
 
 	async function handleSubmit(userInput) {
 		if (!myApiKey) {
@@ -76,7 +80,7 @@ export default function ChatPage() {
 	return (
 		<div className="two-column-container">
 			<div>
-				<ChatList chats={chats}/>
+				<ChatList currentChatId={id} deleteMessages={deleteMessages}/>
 				<p><Link to="/">Start new chat</Link></p>
 			</div>
 			<div id="chat-container">

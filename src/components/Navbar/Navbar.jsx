@@ -2,6 +2,7 @@ import { Link } from "react-router";
 import './Navbar.css'
 import { useState, useEffect } from "react";
 import { useUser } from "../../hooks/UserProvider";
+import { IoHomeOutline } from "react-icons/io5";
 
 // TODO: conditional rendering: if logged in then "logout" button
 export default function Navbar() {
@@ -11,7 +12,7 @@ export default function Navbar() {
     return (
         <nav>
             <div className="nav-links">
-                <Link to="/">Logo / Home</Link>
+                <Link to="/"><IoHomeOutline size="2rem"/> Home</Link>
             </div>
             <div className="nav-links">
                 <Link to="about">About</Link>

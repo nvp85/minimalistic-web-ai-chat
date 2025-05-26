@@ -29,6 +29,7 @@ main {
   border-right: 0.1rem solid lightgrey;
   text-align: center;
   height: calc(100vh - 8rem - 6rem);
+  overflow: auto;
 }
 
 .two-column-container>div:last-child {

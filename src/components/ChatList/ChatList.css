@@ -4,4 +4,20 @@
 
 .chat-list-item>* {
     margin: 0.3rem;
+    text-decoration: none;
+    color: black;
+    align-self: center;
+}
+
+.chat-list-item>*:hover {
+    text-decoration: underline;
+}
+
+.chat-list-item > button {
+    background-color: transparent;
+    border: none;
+}
+
+.chat-list-item > button:hover {
+    background-color: lightgray;
 }

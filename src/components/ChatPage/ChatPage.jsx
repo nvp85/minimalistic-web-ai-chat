@@ -9,16 +9,15 @@ import './ChatPage.css';
 import chatsData from '../../assets/chats.json';
 import messagesData from '../../assets/messages.json'
 import { useUser } from "../../hooks/UserProvider";
-import { useSyncLocalstorage } from '../../hooks/useSyncLocalstorage';
+import useSyncLocalstorage from '../../hooks/useSyncLocalstorage';
+import sendMessage from "../../api/api";
 
 // displays a side bar with the chat list and an individual chat on the right
 // manages the chat
 export default function ChatPage() {
 	const {storedUser, saveUser, removeUser} = useUser();
-	const [chats, setChats] = useState(JSON.parse(localStorage.getItem("chats")) || 
-        chatsData.filter(chat => chat.userId == manageUser.storedUser.id));
+	const [chats, setChats, removeChats] = useSyncLocalstorage("chats", chatsData.filter(chat => chat.userId == storedUser.id));
 	const [myApiKey, setMyApiKey] = useState("");
-	const myModel = "gpt-4o-mini";
 	const [loading, setLoading] = useState(false);
 	const navigate = useNavigate();
 
@@ -39,32 +38,12 @@ export default function ChatPage() {
 		return (<p className="error">Error: No chat was found</p>)
 	}
 
-	const [messages, setMessages] = useState([]);
-
-	useEffect(() => {
-		const storedMessages = JSON.parse(localStorage.getItem(id));
-		if (!storedMessages && !messagesData[id]) {
-			// this should not happen
-			throw new Error("messages are undefined");
-		} else if (!messagesData[id]) {
-			setMessages(storedMessages);
-		} else if (!storedMessages || storedMessages.length < messagesData[id].length) {
-			console.log("one");
-			setMessages(messagesData[id]);
-		} else {
-			setMessages(storedMessages);
-			console.log("two", storedMessages, messagesData[id]);
-		}
-	}, [id]);
+	const [messages, setMessages, removeMessage] = useSyncLocalstorage(id, messagesData[id] || []);
 
 	// if we have another tab with the app open and it changes the localStorage messages
 	// it will be not noticed by the first tab
-	useEffect(() => {
-		localStorage.setItem(id, JSON.stringify(messages));
-	}, [messages])
 
-	const client = new OpenAI({ apiKey: myApiKey, dangerouslyAllowBrowser: true });
-	async function sendMessage(userInput) {
+	async function handleSubmit(userInput) {
 		if (!myApiKey) {
 			navigate("/api-key");
 			return;
@@ -73,31 +52,22 @@ export default function ChatPage() {
 			alert("input is empty");
 			return;
 		}
-		setMessages(prev => [
-			...prev, 
+
+		const convo = [
+			...messages,
 			{
 				role: "user",
-				content: userInput
+				content: userInput,
 			}
-		]);
-
+		];
+		setMessages(convo);
 		setLoading(true);
-		const completion = await client.chat.completions.create({
-			model: myModel,
-			messages: [
-				...messages,
-				{
-					role: "user",
-					content: userInput,
-				},
-			],
-			max_tokens: 200
-		});
-		setMessages(prev => [
-			...prev, 
+		const response = await sendMessage(myApiKey, convo);
+		setMessages([
+			...convo, 
 			{
 				role:"assistant",
-				content: completion.choices[0].message.content
+				content: response
 			}
 		]);
 		setLoading(false);
@@ -118,7 +88,7 @@ export default function ChatPage() {
 					}
 				</div>
 				<div id="chat-input-box">
-                    <ChatTextarea handleClick={sendMessage} />
+                    <ChatTextarea handleClick={handleSubmit} />
 				</div>
 			</div>
 		</div>

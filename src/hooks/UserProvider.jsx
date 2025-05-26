@@ -30,7 +30,7 @@ export default function UserProvider({children}) {
     // remove the user from the storage
     const removeUser = () => {
         localStorage.removeItem("user");
-        storedUser.chats.forEach(chat => localStorage.removeItem(chat.uuid));
+        //storedUser.chats.forEach(chat => localStorage.removeItem(chat.uuid));
         window.dispatchEvent(new StorageEvent('storage', {key: "user", newValue: null}));
     }
 

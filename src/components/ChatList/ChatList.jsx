@@ -4,39 +4,12 @@ import { FiEdit3 } from "react-icons/fi";
 import { RiDeleteBinLine } from "react-icons/ri";
 import './ChatList.css';
 
-export default function ChatList() {
+export default function ChatList(props) {
     // displays the list of chats
     // handles renaming and deletion of a chat
     // chat is an object that has a title and an uuid
     // chats is an array of objects 
-    const chats = [
-        {
-            title: "dummy chat 1",
-            id: "1",
-            lastModified: ""
-        },
-        {
-            title: "dummy chat 2",
-            id: "2",
-            lastModified: ""
-        },
-        {
-            title: "dummy chat 3",
-            id: "3",
-            lastModified: ""
-        },
-        {
-            title: "dummy chat 4",
-            id: "4",
-            lastModified: ""
-        },
-        {
-            title: "dummy chat 5",
-            id: "5",
-            lastModified: ""
-        },
-
-    ]
+    const chats = props.chats;
     return (
         <div id="chat-list">
             <h3>Your chats</h3>

@@ -4,6 +4,7 @@ import ChatList from "../ChatList/ChatList";
 import ChatTextarea from "../ChatTextarea/ChatTextarea";
 import { useUser } from "../../hooks/UserProvider";
 import sendMessage from '../../api/api';
+import useSyncLocalstorage from '../../hooks/useSyncLocalstorage';
 import './HomePage.css';
 import chatsData from '../../assets/chats.json';
 
@@ -17,8 +18,7 @@ export default function HomePage() {
     // we should create a uuid, send the message, 
     // receive response, place it to local storage and navigate to the chat page
     const manageUser = useUser();
-    const [chats, setChats] = useState(JSON.parse(localStorage.getItem("chats")) || 
-        chatsData.filter(chat => chat.userId == manageUser.storedUser.id));
+    const [chats, setChats, removeChats] = useSyncLocalstorage("chats", chatsData.filter(chat => chat.userId == manageUser.storedUser.id)); 
     const [myApiKey, setMyApiKey] = useState("");
     const navigate = useNavigate();
     useEffect(() => {
@@ -41,7 +41,7 @@ export default function HomePage() {
             role: "user",
             content: userInput
         };
-        // generate a title (probably as a separate convo)
+        // TODO: generate a title (probably as a separate convo)
         // untitled chat for now
         const convo = [instructionMessage, firstMessage];
         const chat = {
@@ -52,20 +52,26 @@ export default function HomePage() {
         };
         // the new chat goes to local storage
         // or maybe better to store chats by the userId key?
-        setChats(prev => [...prev, chat]);
+        setChats([...chats, chat]);
+
+        // sets the value before navigating - it will be available on the chat page
+        // and it will subscribe to its changes
         localStorage.setItem(chat.id, JSON.stringify(convo));
         navigate(`chats/${chatId}`);
+
         const response = await sendMessage(myApiKey, convo);
         convo.push({
             role: "assistant",
             content: response
         });
         localStorage.setItem(chat.id, JSON.stringify(convo));
+        // has to dispatch the event to notify the chat page about the new messages
+        window.dispatchEvent(new StorageEvent('storage', {key: chatId, newValue: JSON.stringify(convo)}));
     }
 
-    useEffect(() => {
-        localStorage.setItem("chats", JSON.stringify(chats));
-    }, [chats]);
+    // useEffect(() => {
+    //     localStorage.setItem("chats", JSON.stringify(chats));
+    // }, [chats]);
 
     return (
         <div className="two-column-container"> 

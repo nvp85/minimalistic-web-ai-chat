@@ -57,6 +57,32 @@
             "content": "The best Supertramp song is often considered to be \"Dreamer.\" Its catchy melody, reflective lyrics, and unique blend of Rock and Pop showcase the band's signature sound. Other popular contenders include \"The Logical Song\" and \"Give a Little Bit,\" but personal preferences vary widely among fans."
         }
     ],
-    "fa1b85c1-8216-418e-8a53-5014ba3b3aa6": [],
-    "8ef8723f-1626-4eab-9851-189bc6766bf6": []
+    "fa1b85c1-8216-418e-8a53-5014ba3b3aa6": [
+        {
+            "role": "developer",
+            "content": "Be succinct. Answer in 3-5 sentences."
+        },
+        {
+            "role": "user",
+            "content": "is it safe to eat raw tuna?"
+        },
+        {
+            "role": "assistant",
+            "content": "Eating raw tuna can be safe if it's sourced from reputable suppliers and handled properly. Fresh, high-quality sushi-grade tuna typically undergoes strict safety standards to reduce the risk of parasites and bacteria. However, there is always some risk associated with eating raw fish, so it's important to ensure it's fresh and stored correctly. It's also advisable for certain populations, such as pregnant women or individuals with compromised immune systems, to avoid raw fish entirely."
+        }
+    ],
+    "8ef8723f-1626-4eab-9851-189bc6766bf6": [
+        {
+            "role": "developer",
+            "content": "Be succinct. Answer in 3-5 sentences."
+        },
+        {
+            "role": "user",
+            "content": "is it hard to make a web interface to an AI chat API? "
+        },
+        {
+            "role": "assistant",
+            "content": "Creating a web interface for an AI chat API can vary in difficulty based on your experience with web development and the complexity of the features you want to implement. Generally, it involves basic knowledge of HTML, CSS, and JavaScript to build the front-end, along with understanding how to make API calls to communicate with the AI. Frameworks like React or Vue.js can simplify the process. Overall, it's manageable for those with coding skills, while beginners may need to spend more time learning the basics."
+        }
+    ]
 }

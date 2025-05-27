@@ -9,6 +9,11 @@
     align-self: center;
 }
 
+.chat-list-item>a.active {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
 .chat-list-item>*:hover {
     text-decoration: underline;
 }

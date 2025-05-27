@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router';
+import { Link, useNavigate, NavLink } from 'react-router';
 import { FiEdit3 } from "react-icons/fi";
 import { RiDeleteBinLine } from "react-icons/ri";
 import './ChatList.css';
@@ -31,7 +31,7 @@ export default function ChatList({currentChatId = null }) {
         localStorage.removeItem(id); 
     }
 
-    function giveTitle(id, title) {
+    function rename(id, title) {
         const chat = chats.find(chat => chat.id == id);
         chat.title = title;
         chat.lastModified = Date.now();
@@ -42,7 +42,7 @@ export default function ChatList({currentChatId = null }) {
         <div id="chat-list">
             <h3>Your chats</h3>
             {displayedChats.map(chat => <p key={chat.id} className='chat-list-item'>
-                <Link to={`/chats/${chat.id}`} >{chat.title}</Link>
+                <NavLink to={`/chats/${chat.id}`} >{chat.title}</NavLink>
                 <button ><FiEdit3 /></button>
                 <button onClick={() => deleteChat(chat.id)} value={chat.id}><RiDeleteBinLine /></button>
                 </p>)}

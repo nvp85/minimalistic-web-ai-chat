@@ -23,6 +23,11 @@ nav>div:last-child {
     align-self: center;
 }
 
+.nav-links a.active {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
 .nav-links a:hover {
     text-decoration: underline;
 }

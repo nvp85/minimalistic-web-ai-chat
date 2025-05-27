@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { Link, NavLink } from "react-router";
 import './Navbar.css'
 import { useState, useEffect } from "react";
 import { useUser } from "../../hooks/UserProvider";
@@ -12,18 +12,18 @@ export default function Navbar() {
     return (
         <nav>
             <div className="nav-links">
-                <Link to="/"><IoHomeOutline size="2rem"/> Home</Link>
+                <NavLink to="/"><IoHomeOutline size="2rem"/> Home</NavLink>
             </div>
             <div className="nav-links">
-                <Link to="about">About</Link>
+                <NavLink to="about">About</NavLink>
                 {isAuthenticated
                     ? (<>
-                        <Link to="profile">Welcome, {user.storedUser.name}</Link>
+                        <NavLink to="profile">Welcome, {user.storedUser.name}</NavLink>
                         <button onClick={user.removeUser}>Logout</button>
                     </>)
                     : (<>
-                        <Link to="login">Sign In</Link>
-                        <Link to="register">Sign Up</Link>
+                        <NavLink to="login">Sign In</NavLink>
+                        <NavLink to="register">Sign Up</NavLink>
                     </>)
                 }
             </div>

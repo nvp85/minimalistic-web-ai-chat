@@ -13,10 +13,6 @@ export default function HomePage() {
     // dispays the side bar with the list of chats on the left side
     // and a chat starter form on the right side
     // when user starts a new chat it navigates the user to an individual chat route
-    // sets the chat to the local storage
-
-    // we should create a uuid, send the message, 
-    // receive response, place it to local storage and navigate to the chat page
     const manageUser = useUser();
     const [chats, setChats, removeChats] = useSyncLocalstorage("chats", chatsData.filter(chat => chat.userId == manageUser.storedUser.id)); 
     const [myApiKey, setMyApiKey] = useState("");
@@ -36,7 +32,7 @@ export default function HomePage() {
             role: "developer",
             content: "Be succinct. Answer in 3-5 sentences."
         };
-        // validate the first message
+        // TODO: validate the first message
         const firstMessage = {
             role: "user",
             content: userInput
@@ -51,7 +47,6 @@ export default function HomePage() {
             lastModified: Date.now()
         };
         // the new chat goes to local storage
-        // or maybe better to store chats by the userId key?
         setChats([...chats, chat]);
 
         // sets the value before navigating - it will be available on the chat page
@@ -68,10 +63,6 @@ export default function HomePage() {
         // has to dispatch the event to notify the chat page about the new messages
         window.dispatchEvent(new StorageEvent('storage', {key: chatId, newValue: JSON.stringify(convo)}));
     }
-
-    // useEffect(() => {
-    //     localStorage.setItem("chats", JSON.stringify(chats));
-    // }, [chats]);
 
     return (
         <div className="two-column-container"> 

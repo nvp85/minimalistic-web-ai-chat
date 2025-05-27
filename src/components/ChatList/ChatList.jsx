@@ -6,6 +6,7 @@ import './ChatList.css';
 import useSyncLocalstorage from '../../hooks/useSyncLocalstorage';
 import chatsData from '../../assets/chats.json';
 import { useUser } from '../../hooks/UserProvider';
+import ChatListItem from '../ChatListItem/ChatListItem';
 
 export default function ChatList({currentChatId = null }) {
     // displays the list of chats
@@ -41,11 +42,7 @@ export default function ChatList({currentChatId = null }) {
     return (
         <div id="chat-list">
             <h3>Your chats</h3>
-            {displayedChats.map(chat => <p key={chat.id} className='chat-list-item'>
-                <NavLink to={`/chats/${chat.id}`} >{chat.title}</NavLink>
-                <button ><FiEdit3 /></button>
-                <button onClick={() => deleteChat(chat.id)} value={chat.id}><RiDeleteBinLine /></button>
-                </p>)}
+            {displayedChats.map(chat => <ChatListItem chat={chat} key={chat.id} deleteChat={deleteChat} rename={rename}/>)}
         </div>
     )
 }

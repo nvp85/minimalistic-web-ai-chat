@@ -1,25 +1,36 @@
 import { NavLink } from 'react-router';
 import { RiDeleteBinLine } from "react-icons/ri";
 import { FiEdit3 } from "react-icons/fi";
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { TiTickOutline } from "react-icons/ti";
 
 
 export default function ChatListItem({chat, deleteChat, rename}) {
     const [editing, setEditing] = useState(false);
     const [newTitle, setNewTitle] = useState(chat.title);
+    const editImput = useRef();
 
     function handleClick() {
         setEditing(true);
     }
 
     function handleSubmit(e) {
-        e.preventdefault();
-        rename(chat.id, e.target.value);
+        e.preventDefault();
+        rename(chat.id, newTitle);
         setEditing(false);
     }
 
-    return (<p key={chat.id} className='chat-list-item'>
+    function handleBlur() {
+        setTimeout(() => setEditing(false), 200);
+    }
+
+    useEffect(() => {
+        if (editing && editImput.current) {
+            editImput.current.focus();
+        }
+    }, [editing])
+
+    return (<div className='chat-list-item'>
         {editing 
             ? (
                 <form onSubmit={handleSubmit}>
@@ -27,9 +38,11 @@ export default function ChatListItem({chat, deleteChat, rename}) {
                         name='newTitle'
                         value={newTitle}
                         onChange={(e) => setNewTitle(e.target.value)}
-                        onBlur={() => setEditing(false)}
+                        onBlur={handleBlur}
+                        ref={editImput}
+                        maxLength="50"
                     />
-                    <button type='submit'><TiTickOutline size="2rem"/></button>
+                    <button type="submit"><TiTickOutline size="2rem"/></button>
                 </form>)
             : (
                 <>
@@ -38,5 +51,5 @@ export default function ChatListItem({chat, deleteChat, rename}) {
                     <button onClick={() => deleteChat(chat.id)} value={chat.id}><RiDeleteBinLine /></button>
                 </>
             )}
-        </p>)
+        </div>)
 }

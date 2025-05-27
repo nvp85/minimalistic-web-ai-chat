@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import ChatList from "../ChatList/ChatList";
 import { Link, useNavigate, useParams, useLocation } from 'react-router';
 import MessageBubble from "../MessageBubble/MessageBubble";
@@ -20,7 +20,9 @@ export default function ChatPage() {
 	const location = useLocation();
 	const [loading, setLoading] = useState(location.state ? location.state.generating : false);
 	const [error, setError] = useState("");
+	const chatBottom = useRef();
 	const navigate = useNavigate();
+
 	
 
 	useEffect(() => {
@@ -75,6 +77,11 @@ export default function ChatPage() {
 		]);
 		setLoading(false);
 	}
+	// scroll to the bottom of the chat
+	useEffect(() => {
+		chatBottom.current.scrollIntoView({behavior: 'smooth'});
+	}, [loading]);
+
 	if (error) {
 		return (
 			<div>
@@ -94,6 +101,7 @@ export default function ChatPage() {
 					{messages.map((message, index) => <MessageBubble message={message} key={index} />)}
 					{loading
 						&& <p>generating response <PiSpinnerGap/></p>}
+					<div ref={chatBottom} />
 				</div>
 				<div id="chat-input-box">
                     <ChatTextarea handleClick={handleSubmit} />

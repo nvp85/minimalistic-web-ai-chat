@@ -100,7 +100,7 @@ export default function ChatPage() {
 				<div id="chatbox">
 					{messages.map((message, index) => <MessageBubble message={message} key={index} />)}
 					{loading
-						&& <p>generating response <PiSpinnerGap/></p>}
+						&& <p>generating response <PiSpinnerGap className="spinner"/></p>}
 					<div ref={chatBottom} />
 				</div>
 				<div id="chat-input-box">

@@ -18,7 +18,6 @@ export default function Navbar() {
                 <Link to="about">About</Link>
                 {isAuthenticated
                     ? (<>
-                        <Link to="api-key">API key</Link>
                         <Link to="profile">Welcome, {user.storedUser.name}</Link>
                         <button onClick={user.removeUser}>Logout</button>
                     </>)

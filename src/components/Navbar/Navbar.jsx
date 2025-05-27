@@ -18,6 +18,7 @@ export default function Navbar() {
                 <NavLink to="about">About</NavLink>
                 {isAuthenticated
                     ? (<>
+                        <NavLink to="chats" id="chats-link">Chats</NavLink>
                         <NavLink to="profile">Welcome, {user.storedUser.name}</NavLink>
                         <button onClick={user.removeUser} className="btn">Logout</button>
                     </>)

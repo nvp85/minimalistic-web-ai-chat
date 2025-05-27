@@ -35,3 +35,13 @@ nav>div:last-child {
 .nav-links > button {
     align-self: center;
 }
+
+#chats-link {
+    display: none;
+}
+
+@media (max-width: 1200px) {
+    #chats-link {
+        display: inline;
+    }
+  }

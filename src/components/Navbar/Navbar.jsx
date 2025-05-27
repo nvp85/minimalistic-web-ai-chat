@@ -1,4 +1,4 @@
-import { Link, NavLink } from "react-router";
+import { NavLink } from "react-router";
 import './Navbar.css'
 import { useState, useEffect } from "react";
 import { useUser } from "../../hooks/UserProvider";
@@ -19,7 +19,7 @@ export default function Navbar() {
                 {isAuthenticated
                     ? (<>
                         <NavLink to="profile">Welcome, {user.storedUser.name}</NavLink>
-                        <button onClick={user.removeUser}>Logout</button>
+                        <button onClick={user.removeUser} className="btn">Logout</button>
                     </>)
                     : (<>
                         <NavLink to="login">Sign In</NavLink>

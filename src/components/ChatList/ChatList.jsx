@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate, NavLink } from 'react-router';
+import { useNavigate, NavLink } from 'react-router';
 import { FiEdit3 } from "react-icons/fi";
 import { RiDeleteBinLine } from "react-icons/ri";
 import './ChatList.css';

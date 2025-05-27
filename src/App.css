@@ -1,91 +1,85 @@
 #root {
-  height: 100vh;
-  width: 100%;
-  font-size: 1.5rem;
+    height: 100vh;
+    width: 100%;
+    font-size: 1.5rem;
 }
 
 #main-container {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    height: 100%;
 }
 
 main {
-  flex-grow: 1;
-  text-align: center;
+    flex-grow: 1;
+    text-align: center;
 }
 
 .two-column-container {
-  display: flex;
-  width: 100%;
-  height: 100%;
+    display: flex;
+    width: 100%;
+    height: 100%;
 }
 
 .two-column-container>div:first-child {
-  flex-basis: 25%;
-  flex-grow: 0;
-  flex-shrink: 0;
-  border-right: 0.1rem solid lightgrey;
-  text-align: center;
-  height: calc(100vh - 8rem - 6rem);
-  overflow: auto;
+    flex-basis: 25%;
+    flex-grow: 0;
+    flex-shrink: 0;
+    border-right: 0.1rem solid lightgrey;
+    text-align: center;
+    height: calc(100vh - 8rem - 6rem);
+    overflow: auto;
 }
 
 .two-column-container>div:last-child {
-  flex-grow: 1;
-  text-align: center;
-  height: calc(100vh - 8rem - 6rem);
+    flex-grow: 1;
+    text-align: center;
+    height: calc(100vh - 8rem - 6rem);
 }
 
 button {
-  margin: 0.5rem;
-  padding: 0.5rem;
-  font-size: 1.5rem;
+    margin: 0.5rem;
+    padding: 0.5rem;
+    font-size: 1.5rem;
 }
 
 .form {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  font-size: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    font-size: 1.5rem;
 }
 
 .form-container {
-  max-width: 40rem;
-  margin-left: auto;
-  margin-right: 50%;
-  transform: translate(50%);
-  border-radius: 2rem;
-  background-color: white;
-  padding: 2rem;
-  box-shadow: 1px 2px 1px lightblue, -1px 2px 1px lightblue;
-  margin-top: 5%;
+    max-width: 40rem;
+    margin-left: auto;
+    margin-right: 50%;
+    transform: translate(50%);
+    border-radius: 2rem;
+    background-color: white;
+    padding: 2rem;
+    box-shadow: 1px 2px 1px lightblue, -1px 2px 1px lightblue;
+    margin-top: 5%;
 }
 
-.form > input {
-  height: 3.5rem;
-  font-size: 1.5rem;
-  padding: 0 1rem;
+.form>input {
+    height: 3.5rem;
+    font-size: 1.5rem;
+    padding: 0 1rem;
 }
 
 .eye-btn {
-  background-color: transparent;
-  border: none;
-  width: fit-content;
-  position: absolute;
-  align-self: flex-end;
-  top: 18.5rem;
-}
-
-@media (max-width: 1200px) {
-  .two-column-container>div:first-child {
-    display: none;
-  }
+    background-color: transparent;
+    border: none;
+    width: fit-content;
+    position: absolute;
+    align-self: flex-end;
+    top: 18.5rem;
 }
 
 .red-text {
-  color: red;
+    color: red;
 }
 
 .btn {
@@ -98,5 +92,33 @@ button {
 }
 
 .btn:hover {
-  background-color: aqua;
+    background-color: aqua;
+}
+
+@media (max-width: 700px) {
+    .input-container>button {
+        display: block;
+        position: static;
+        margin-top: 1rem;
+        width: 15rem;
+        margin-left: auto;
+        margin-right: 50%;
+        transform: translate(50%);
+    }
+
+    footer {
+        display: none;
+    }
+
+    .two-column-container>div:last-child {
+        flex-grow: 1;
+        text-align: center;
+        height: calc(100vh - 8rem);
+    }
+}
+
+@media (max-width: 1200px) {
+    .two-column-container>div:first-child {
+        display: none;
+    }
 }

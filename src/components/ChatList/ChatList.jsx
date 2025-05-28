@@ -80,7 +80,7 @@ export default function ChatList({ currentChatId = null }) {
                 error && 
                 <Modal onClose={closeErrorModal} btnText='Close'>
                     <h3>Error</h3>
-                    <p>{error}</p>
+                    <p className='red-text'>{error}</p>
                 </Modal>
             }
         </div>

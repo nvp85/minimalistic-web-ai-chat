@@ -10,6 +10,8 @@ import { useUser } from "../../hooks/UserProvider";
 import useSyncLocalstorage from '../../hooks/useSyncLocalstorage';
 import sendMessage from "../../api/api";
 import { PiSpinnerGap } from "react-icons/pi";
+import Modal from '../Modal/Modal';
+import NotFound from "../NotFound";
 
 // displays a side bar with the chat list and an individual chat on the right
 // manages the chat
@@ -23,8 +25,6 @@ export default function ChatPage() {
 	const chatBottom = useRef();
 	const navigate = useNavigate();
 
-	
-
 	useEffect(() => {
 		const storedKey = localStorage.getItem("apiKey");
 		if (storedKey) {
@@ -36,22 +36,19 @@ export default function ChatPage() {
 
 	// extracts uuid of the chat and fetch its messages from the backend
 	const { id } = useParams();
-	if (chats) {
+	const [messages, setMessages, removeMessages] = useSyncLocalstorage(id, messagesData[id] || []);
+	try {
 		const chat = chats.find(chat => chat.id == id);
 		if (!chat || storedUser.id != chat.userId) {
-			setError("No chat was found.");
+			throw new Error("No chat was found.");
 		}
-	} else {
-		setError("No chats were found.");
+	} catch {
+		return <NotFound />
 	}
-
-	const [messages, setMessages, removeMessages] = useSyncLocalstorage(id, messagesData[id] || []);
-
 
 	if (messages.at(-1).role === "assistant" && loading) {
 		setLoading(false);
 	}
-	
 
 	async function handleSubmit(userInput) {
 		if (!myApiKey) {
@@ -65,30 +62,27 @@ export default function ChatPage() {
 				content: userInput,
 			}
 		];
-		setMessages(convo);
-		setLoading(true);
-		const response = await sendMessage(myApiKey, convo);
-		setMessages([
-			...convo, 
-			{
-				role:"assistant",
-				content: response
-			}
-		]);
-		setLoading(false);
+		try {
+			setMessages(convo);
+			setLoading(true);
+			const response = await sendMessage(myApiKey, convo);
+			setMessages([
+				...convo, 
+				{
+					role:"assistant",
+					content: response
+				}
+			]);
+		} catch {
+			setError("Something went wrong. Response wasn't generated.");
+		} finally {
+			setLoading(false);
+		}		
 	}
 	// scroll to the bottom of the chat
 	useEffect(() => {
 		chatBottom.current.scrollIntoView({behavior: 'smooth'});
 	}, [loading]);
-
-	if (error) {
-		return (
-			<div>
-				<p className="red-text">{error}</p>
-			</div>
-		)
-	}
 
 	return (
 		<div className="two-column-container">
@@ -101,6 +95,13 @@ export default function ChatPage() {
 					{messages.map((message, index) => <MessageBubble message={message} key={index} />)}
 					{loading
 						&& <p>generating response <PiSpinnerGap className="spinner"/></p>}
+					{
+						error && 
+						<Modal onClose={() => setError("")} btnText='Close'>
+							<h3>Error</h3>
+							<p className='red-text'>{error}</p>
+						</Modal>
+					}
 					<div ref={chatBottom} />
 				</div>
 				<div id="chat-input-box">

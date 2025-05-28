@@ -17,6 +17,10 @@ export default function Navbar() {
         }
     }, [isMenuOpen]);
 
+    function handleBlur() {
+        setTimeout(() => setIsMenuOpen(false), 100);
+    }
+
     return (
         <nav>
             <div className="nav-links">
@@ -29,10 +33,10 @@ export default function Navbar() {
                         <NavLink to="chats" id="chats-link">Chats</NavLink>
                         {
                             user.storedUser.name.trim()
-                            ? <NavLink to="profile">Welcome, {user.storedUser.name}</NavLink>
-                            : <NavLink to="profile">Profile</NavLink>
+                                ? <NavLink to="profile">Welcome, {user.storedUser.name}</NavLink>
+                                : <NavLink to="profile">Profile</NavLink>
                         }
-                        
+
                         <button onClick={user.removeUser} className="btn">Logout</button>
                     </>)
                     : (<>
@@ -42,26 +46,28 @@ export default function Navbar() {
                 }
             </div>
             <div id="mobil-nav">
-                <Hamburger toggled={isMenuOpen} size={20} toggle={setIsMenuOpen} />
-                {isMenuOpen &&
-                    <div className="nav-links"
-                        id="hamburger-menu"
-                        ref={menuRef}
-                        onBlur={() => setIsMenuOpen(false)}
-                        tabIndex="0">
-                        <NavLink to="about">About</NavLink>
-                        {isAuthenticated
-                            ? (<>
-                                <NavLink to="chats" id="chats-link">Chats</NavLink>
-                                <NavLink to="profile">Profile</NavLink>
-                                <button onClick={user.removeUser} className="btn">Logout</button>
-                            </>)
-                            : (<>
-                                <NavLink to="login">Sign In</NavLink>
-                                <NavLink to="register">Sign Up</NavLink>
-                            </>)
-                        }
-                    </div>}
+                <div>
+                    <Hamburger toggled={isMenuOpen} size={20} toggle={setIsMenuOpen}  />
+                    {isMenuOpen &&
+                        <div className="nav-links"
+                            id="hamburger-menu"
+                            ref={menuRef}
+                            onBlur={handleBlur}
+                            tabIndex="0">
+                            <NavLink to="about">About</NavLink>
+                            {isAuthenticated
+                                ? (<>
+                                    <NavLink to="chats" id="chats-link">Chats</NavLink>
+                                    <NavLink to="profile">Profile</NavLink>
+                                    <button onClick={user.removeUser} className="btn">Logout</button>
+                                </>)
+                                : (<>
+                                    <NavLink to="login">Sign In</NavLink>
+                                    <NavLink to="register">Sign Up</NavLink>
+                                </>)
+                            }
+                        </div>}
+                </div>
             </div>
         </nav>
     )

@@ -66,12 +66,14 @@ export default function SignIn() {
                     value={formData.email}
                     placeholder="Email"
                     onChange={handleChange}
+                    maxLength="150"
                     required />
                 <input 
                     type={showPassword ? "text" : "password"} 
                     name="password"
                     value={formData.password}
                     onChange={handleChange}
+                    maxLength="150"
                     required 
                     placeholder="Password"/>
                 <button type="button" className="eye-btn" onClick={togglePassword}>

@@ -82,6 +82,7 @@ export default function SignUp() {
                     value={formData.name}
                     onChange={handleChange}
                     pattern="[A-Za-z0-9\s]+"
+                    maxLength="150"
                     />
                 <input 
                     type="email" 
@@ -89,6 +90,7 @@ export default function SignUp() {
                     name='email'
                     value={formData.email}
                     onChange={handleChange}
+                    maxLength="150"
                     required/>
                 <input 
                     type={showPassword ? "text" : "password"}
@@ -96,6 +98,7 @@ export default function SignUp() {
                     name='password'
                     value={formData.password}
                     onChange={handleChange}
+                    maxLength="150"
                     required/>
                 <button type="button" className="eye-btn" onClick={() => setShowPassword(prev => !prev)}>
                     {showPassword ? <LuEye /> : <LuEyeOff /> }

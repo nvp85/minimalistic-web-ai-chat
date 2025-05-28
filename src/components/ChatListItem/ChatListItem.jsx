@@ -48,7 +48,7 @@ export default function ChatListItem({chat, deleteChat, rename}) {
                 <>
                     <NavLink to={`/chats/${chat.id}`} >{chat.title}</NavLink>
                     <button onClick={handleClick}><FiEdit3 /></button>
-                    <button onClick={() => deleteChat(chat.id)} value={chat.id}><RiDeleteBinLine /></button>
+                    <button onClick={() => deleteChat(chat)} value={chat.id}><RiDeleteBinLine /></button>
                 </>
             )}
         </div>)

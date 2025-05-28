@@ -7,6 +7,8 @@ import useSyncLocalstorage from '../../hooks/useSyncLocalstorage';
 import chatsData from '../../assets/chats.json';
 import { useUser } from '../../hooks/UserProvider';
 import ChatListItem from '../ChatListItem/ChatListItem';
+import Modal from '../Modal/Modal';
+
 
 export default function ChatList({currentChatId = null }) {
     // displays the list of chats
@@ -17,6 +19,9 @@ export default function ChatList({currentChatId = null }) {
     const [chats, setChats, removeChats] = useSyncLocalstorage("chats", chatsData.filter(chat => chat.userId == storedUser.id));
     const displayedChats = chats.toSorted((a, b) => b.lastModified - a.lastModified);
     const navigate = useNavigate();
+    const [ isModalOpen, setIsModalOpen ] = useState(false);
+    // this chat is for the modal dialog context
+    const [currChat, setCurrChat] = useState(null);
 
     function deleteChat(id) {
         // when we are deleting the current chat
@@ -30,6 +35,8 @@ export default function ChatList({currentChatId = null }) {
         // delete the chat messages
         // if it's the current chat we don't want to trigger re-rendering of the chat page
         localStorage.removeItem(id); 
+
+        setIsModalOpen(false);
     }
 
     function rename(id, title) {
@@ -39,10 +46,22 @@ export default function ChatList({currentChatId = null }) {
         setChats([...chats.filter(chat => chat.id != id), chat]);
     }
 
+    function confirmDelete(chat) {
+        setCurrChat(chat);
+        setIsModalOpen(true);
+    }
+
     return (
         <div id="chat-list">
             <h3>Your chats</h3>
-            {displayedChats.map(chat => <ChatListItem chat={chat} key={chat.id} deleteChat={deleteChat} rename={rename}/>)}
+            {displayedChats.map(chat => <ChatListItem chat={chat} key={chat.id} deleteChat={confirmDelete} rename={rename}/>)}
+            {currChat && isModalOpen &&
+            <Modal onClose={() => setIsModalOpen(false)}> 
+                <h3>Do you want to delete this chat?</h3>
+                <p>{currChat.title}</p>
+                <button onClick={() => deleteChat(currChat.id)} className='delete-btn btn'>Delete</button>
+            </Modal> 
+            }
         </div>
     )
 }

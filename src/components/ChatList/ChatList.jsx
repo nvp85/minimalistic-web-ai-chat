@@ -54,7 +54,9 @@ export default function ChatList({currentChatId = null }) {
     return (
         <div id="chat-list">
             <h3>Your chats</h3>
+            <ul>
             {displayedChats.map(chat => <ChatListItem chat={chat} key={chat.id} deleteChat={confirmDelete} rename={rename}/>)}
+            </ul>
             {currChat && isModalOpen &&
             <Modal onClose={() => setIsModalOpen(false)}> 
                 <h3>Do you want to delete this chat?</h3>

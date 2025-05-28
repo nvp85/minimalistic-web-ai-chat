@@ -30,7 +30,7 @@ export default function ChatListItem({chat, deleteChat, rename}) {
         }
     }, [editing])
 
-    return (<div className='chat-list-item'>
+    return (<li className='chat-list-item'>
         {editing 
             ? (
                 <form onSubmit={handleSubmit}>
@@ -46,10 +46,10 @@ export default function ChatListItem({chat, deleteChat, rename}) {
                 </form>)
             : (
                 <>
-                    <NavLink to={`/chats/${chat.id}`} >{chat.title}</NavLink>
+                    <span className='chat-title'><NavLink to={`/chats/${chat.id}`} >{chat.title}</NavLink></span>
                     <button onClick={handleClick}><FiEdit3 /></button>
                     <button onClick={() => deleteChat(chat)} value={chat.id}><RiDeleteBinLine /></button>
                 </>
             )}
-        </div>)
+        </li>)
 }

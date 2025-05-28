@@ -2,27 +2,55 @@
     margin-bottom: 3rem;
 }
 
-.chat-list-item>* {
+ul {
+    list-style-type: none;
+    text-align: left;
+    margin-left: 2rem;
+    padding: 0rem;
+    margin-right: auto;
+}
+
+.chat-list-item {
+    margin-left: 2rem;
+    align-self: left;
+}
+
+li>span>a {
     margin: 0.3rem;
     text-decoration: none;
     color: black;
-    align-self: center;
 }
 
-.chat-list-item>a.active {
+.chat-title {
+    text-align: left;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 70%;
+    max-width: 70%;
+}
+
+li>span>a.active {
     font-weight: bold;
     text-decoration: underline;
 }
 
-.chat-list-item>*:hover {
+li>span>a:hover {
     text-decoration: underline;
 }
 
-.chat-list-item > button {
+.chat-list-item>button {
     background-color: transparent;
     border: none;
 }
 
-.chat-list-item > button:hover {
+.chat-list-item>button:hover {
     background-color: lightgray;
+}
+
+.list-title {
+    width: 50%;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

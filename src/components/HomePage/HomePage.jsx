@@ -7,6 +7,7 @@ import sendMessage from '../../api/api';
 import useSyncLocalstorage from '../../hooks/useSyncLocalstorage';
 import './HomePage.css';
 import chatsData from '../../assets/chats.json';
+import Modal from '../Modal/Modal';
 
 
 export default function HomePage() {
@@ -16,17 +17,20 @@ export default function HomePage() {
     const manageUser = useUser();
     const [chats, setChats, removeChats] = useSyncLocalstorage("chats", chatsData.filter(chat => chat.userId == manageUser.storedUser.id)); 
     const [myApiKey, setMyApiKey] = useState("");
+    const [error, setError] = useState("");
     const navigate = useNavigate();
     useEffect(() => {
 		const storedKey = localStorage.getItem("apiKey");
 		if (storedKey) {
 			setMyApiKey(storedKey);
-		} else {
-			navigate("/api-key");
-		}
+		} 
 	}, []);
 
     async function startNewChat(userInput) {
+        if (!myApiKey) {
+            setError("Can't send a message. Please set an API key.");
+            return;
+        }
         const chatId = crypto.randomUUID();
         const instructionMessage = {
             role: "developer",
@@ -54,6 +58,7 @@ export default function HomePage() {
         localStorage.setItem(chat.id, JSON.stringify(convo));
         navigate(`chats/${chatId}`, {state: {generating: true}});
 
+        // TODO: what if the response is not successful?
         const response = await sendMessage(myApiKey, convo);
         convo.push({
             role: "assistant",
@@ -70,8 +75,15 @@ export default function HomePage() {
                 <ChatList chats={chats} />            
             </div>
             <div id="right-column">
-
                 <ChatTextarea handleClick={startNewChat} />
+                {
+                    error && 
+                    <Modal onClose={() => setError("")} btnText='Close'>
+                        <h3>Error</h3>
+                        <p className='red-text'>{error}</p>
+                        {!myApiKey && error.includes("API") && <p><Link to="/api-key">Set API key</Link></p>}
+                    </Modal>
+				}
             </div>
         </div>
     )

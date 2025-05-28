@@ -5,7 +5,6 @@ import { useUser } from "../../hooks/UserProvider";
 import { IoHomeOutline } from "react-icons/io5";
 import Hamburger from 'hamburger-react';
 
-// TODO: conditional rendering: if logged in then "logout" button
 export default function Navbar() {
     const user = useUser();
     const isAuthenticated = user.storedUser ? true : false;
@@ -28,7 +27,12 @@ export default function Navbar() {
                 {isAuthenticated
                     ? (<>
                         <NavLink to="chats" id="chats-link">Chats</NavLink>
-                        <NavLink to="profile">Welcome, {user.storedUser.name}</NavLink>
+                        {
+                            user.storedUser.name.trim()
+                            ? <NavLink to="profile">Welcome, {user.storedUser.name}</NavLink>
+                            : <NavLink to="profile">Profile</NavLink>
+                        }
+                        
                         <button onClick={user.removeUser} className="btn">Logout</button>
                     </>)
                     : (<>

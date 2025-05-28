@@ -49,6 +49,7 @@ button {
     flex-direction: column;
     gap: 2rem;
     font-size: 1.5rem;
+    position: relative;
 }
 
 .form-container {
@@ -75,7 +76,6 @@ button {
     width: fit-content;
     position: absolute;
     align-self: flex-end;
-    top: 18.5rem;
 }
 
 .red-text {
@@ -115,10 +115,17 @@ button {
         text-align: center;
         height: calc(100vh - 8rem);
     }
+
 }
 
 @media (max-width: 1200px) {
     .two-column-container>div:first-child {
         display: none;
     }
+}
+
+
+.delete-btn:hover {
+    background-color: red;
+    color: white;
 }

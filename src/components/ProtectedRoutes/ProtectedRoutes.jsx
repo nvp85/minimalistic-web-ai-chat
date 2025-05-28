@@ -1,5 +1,5 @@
 import { Outlet, Navigate } from 'react-router';
-import { useUser } from '../../hooks/UserProvider'; 
+import { useUser } from '../../contextProviders/UserProvider'; 
 
 
 export default function ProtectedRoutes() {

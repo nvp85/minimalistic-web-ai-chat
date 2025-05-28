@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import ChatList from "../ChatList/ChatList";
 import ChatTextarea from "../ChatTextarea/ChatTextarea";
-import { useUser } from "../../hooks/UserProvider";
+import { useUser } from "../../contextProviders/UserProvider";
 import sendMessage from '../../api/api';
 import useSyncLocalstorage from '../../hooks/useSyncLocalstorage';
 import './HomePage.css';

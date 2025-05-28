@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect, useSyncExternalStore } from "react";
-import useSyncLocalstorage from "./useSyncLocalstorage";
+import useSyncLocalstorage from "../hooks/useSyncLocalstorage";
 import chatsData from '../assets/chats.json';
 
 // this context provider is in sync with localStorage and provides the user object to all the children

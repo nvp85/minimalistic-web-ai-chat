@@ -3,7 +3,7 @@ import { Link, useNavigate, Navigate } from 'react-router';
 import { useState } from "react";
 import { LuEye, LuEyeOff } from "react-icons/lu";
 import './SignIn.css';
-import { useUser } from "../../hooks/UserProvider";
+import { useUser } from "../../contextProviders/UserProvider";
 
 export default function SignIn() {
     const [formData, setFormData] = useState({

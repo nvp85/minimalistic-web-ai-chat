@@ -9,7 +9,7 @@ import './App.css';
 import APIkeyForm from "./components/APIkeyForm/APIkeyForm";
 import AboutPage from "./components/AboutPage/AboutPage";
 import ChatList from "./components/ChatList/ChatList";
-import UserProvider from "./hooks/UserProvider";
+import UserProvider from "./contextProviders/UserProvider";
 import ProtectedRoutes from "./components/ProtectedRoutes/ProtectedRoutes";
 import NotFound from "./components/NotFound";
 

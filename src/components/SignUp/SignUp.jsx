@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useNavigate } from 'react-router';
 import users from "../../assets/users.json";
 import { LuEye, LuEyeOff } from "react-icons/lu";
-import { useUser } from "../../hooks/UserProvider";
+import { useUser } from "../../contextProviders/UserProvider";
 
 
 export default function SignUp() {

@@ -11,6 +11,7 @@ import AboutPage from "./components/AboutPage/AboutPage";
 import ChatList from "./components/ChatList/ChatList";
 import UserProvider from "./hooks/UserProvider";
 import ProtectedRoutes from "./components/ProtectedRoutes/ProtectedRoutes";
+import NotFound from "./components/NotFound";
 
 // TODO: protected routes
 function App() {
@@ -23,6 +24,7 @@ function App() {
                     <Route path="register" element={<SignUp />} />
                     <Route path="about" element={<AboutPage />} />
 
+
                     <Route element=<ProtectedRoutes /> >
                         <Route path="" element={<HomePage />} />
                         <Route path="chats/:id" element={<ChatPage />} />
@@ -30,6 +32,7 @@ function App() {
                         <Route path="profile" element={<Profile />} />
                         <Route path="api-key" element={<APIkeyForm />} />
                     </Route>
+                    <Route path="*" element={<NotFound />} />
                 </Route>
             </Routes>
         </BrowserRouter>

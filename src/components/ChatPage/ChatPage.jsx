@@ -35,8 +35,9 @@ export default function ChatPage() {
 	// extracts uuid of the chat and fetch its messages from the backend
 	const { id } = useParams();
 	const [messages, setMessages, removeMessages] = useSyncLocalstorage(id, messagesData[id] || []);
+	let chat = null;
 	try {
-		const chat = chats.find(chat => chat.id == id);
+		chat = chats.find(chat => chat.id == id);
 		if (!chat || storedUser.id != chat.userId) {
 			throw new Error("No chat was found.");
 		}
@@ -66,6 +67,7 @@ export default function ChatPage() {
 		];
 		try {
 			setMessages(convo);
+			setChats([...chats.filter(chat => chat.id!=id), {...chat, lastModified: Date.now()}]);
 			setLoading(true);
 			const response = await sendMessage(myApiKey, convo);
 			setMessages([

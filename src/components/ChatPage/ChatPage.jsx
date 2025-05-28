@@ -29,8 +29,6 @@ export default function ChatPage() {
 		const storedKey = localStorage.getItem("apiKey");
 		if (storedKey) {
 			setMyApiKey(storedKey);
-		} else {
-			navigate("/api-key");
 		}
 	}, []);
 
@@ -52,7 +50,7 @@ export default function ChatPage() {
 
 	async function handleSubmit(userInput) {
 		if (!myApiKey) {
-			navigate("/api-key");
+			setError("Can't send a message. Please set an API key.");
 			return;
 		}
 		const convo = [
@@ -100,6 +98,7 @@ export default function ChatPage() {
 						<Modal onClose={() => setError("")} btnText='Close'>
 							<h3>Error</h3>
 							<p className='red-text'>{error}</p>
+							{!myApiKey && error.includes("API") && <p><Link to="/api-key">Set API key</Link></p>}
 						</Modal>
 					}
 					<div ref={chatBottom} />

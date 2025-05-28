@@ -53,6 +53,10 @@ export default function ChatPage() {
 			setError("Can't send a message. Please set an API key.");
 			return;
 		}
+		if (!userInput.trim()) {
+			setError("Your message should not be empty.");
+			return;
+		}
 		const convo = [
 			...messages,
 			{

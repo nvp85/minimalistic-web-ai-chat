@@ -1,6 +1,6 @@
 import users from "../../assets/users.json";
 import { Link, useNavigate, Navigate } from 'react-router';
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { LuEye, LuEyeOff } from "react-icons/lu";
 import './SignIn.css';
 import { useUser } from "../../hooks/UserProvider";
@@ -11,26 +11,37 @@ export default function SignIn() {
         password: "qwerty123"
     });
     const [showPassword, setShowPassword] = useState(false);
-    const storedUser = useUser();
+    const manageUser = useUser();
     const [error, setError] = useState("");
     const navigate = useNavigate();
 
     // if there is an info in the local storage then user is logged in
-    if (storedUser.storedUser) {
+    if (manageUser.storedUser) {
         return <Navigate to='/' />
     }
-    
-    console.log("rendering");
+
     function handleSubmit(e) {
         e.preventDefault();
+        if (!formData.email || !formData.password) {
+            setError("Please enter your email and password.");
+            return;
+        };
+        if (!new RegExp(/\S+@\S+\.\S+/).test(formData.email)) {
+            setError("Please enter a valid email address.");
+            return;
+        };
         // check if there is a matching user in the json
         const user = users.find(user => user.email === formData.email);
         if (!user || user.password !== formData.password) {
             setError("Error: invalid credentials.");
             return;
         }
-        storedUser.saveUser(user);
-        navigate("/");
+        try {
+            manageUser.saveUser(user);  
+            navigate("/");  
+        } catch (err) {
+            setError("Error: fail to login.");
+        }
     }
 
     function handleChange(e) {
@@ -47,7 +58,7 @@ export default function SignIn() {
         <div className="form-container">
             <h1>Sign In</h1>
             <p>Don't have an accout? Register <Link to="/register">here</Link>.</p>
-            {error ? <p>{error}</p> : "" }
+            {error ? <p className="red-text">{error}</p> : "" }
             <form id="login-form" className="form">
                 <input 
                     type="email"
@@ -66,7 +77,7 @@ export default function SignIn() {
                 <button type="button" className="eye-btn" onClick={togglePassword}>
                     {showPassword ? <LuEye /> : <LuEyeOff /> }
                 </button>
-                <button type="submit" onClick={handleSubmit}>submit</button>
+                <button type="submit" onClick={handleSubmit} className="btn" id="login-btn">submit</button>
             </form>
         </div>
     )

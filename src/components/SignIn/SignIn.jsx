@@ -59,7 +59,7 @@ export default function SignIn() {
             <h1>Sign In</h1>
             <p>Don't have an accout? Register <Link to="/register">here</Link>.</p>
             {error ? <p className="red-text">{error}</p> : "" }
-            <form id="login-form" className="form">
+            <form id="login-form" className="form" onSubmit={handleSubmit}>
                 <input 
                     type="email"
                     name="email"
@@ -77,7 +77,7 @@ export default function SignIn() {
                 <button type="button" className="eye-btn" onClick={togglePassword}>
                     {showPassword ? <LuEye /> : <LuEyeOff /> }
                 </button>
-                <button type="submit" onClick={handleSubmit} className="btn" id="login-btn">submit</button>
+                <button type="submit" className="btn" id="login-btn">submit</button>
             </form>
         </div>
     )

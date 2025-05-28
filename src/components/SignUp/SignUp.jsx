@@ -74,13 +74,14 @@ export default function SignUp() {
             <h1>Sign Up</h1>
             <p>Already have an accout? Sign in <Link to="/login">here</Link>.</p>
             {formErrors.map(err => <p className="red-text" key={err}>{err}</p>)}
-            <form id="register-form" className="form">
+            <form id="register-form" className="form" onSubmit={handleSubmit}>
                 <input 
                     type="name" 
                     placeholder="Name (optional)"
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
+                    pattern="[A-Za-z0-9\s]+"
                     />
                 <input 
                     type="email" 
@@ -99,7 +100,7 @@ export default function SignUp() {
                 <button type="button" className="eye-btn" onClick={() => setShowPassword(prev => !prev)}>
                     {showPassword ? <LuEye /> : <LuEyeOff /> }
                 </button>
-                <button onClick={handleSubmit} id="signup-btn" className='btn'>submit</button>
+                <button type='submit' id="signup-btn" className='btn'>submit</button>
             </form>
         </div>
     )

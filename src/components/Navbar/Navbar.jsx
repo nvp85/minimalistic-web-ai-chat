@@ -19,7 +19,8 @@ export default function Navbar() {
     }, [isMenuOpen]);
 
     function handleBlur() {
-        setTimeout(() => setIsMenuOpen(false), 100);
+        // race condition
+        setTimeout(() => {setIsMenuOpen(false)}, 200);
     }
 
     function handleLogout() {

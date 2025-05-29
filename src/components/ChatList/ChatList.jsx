@@ -3,7 +3,7 @@ import { useNavigate, NavLink } from 'react-router';
 import './ChatList.css';
 import useSyncLocalstorage from '../../hooks/useSyncLocalstorage';
 import chatsData from '../../assets/chats.json';
-import { useUser } from '../../contextProviders/UserProvider';
+import { useUser } from '../../hooks/useUser';
 import ChatListItem from '../ChatListItem/ChatListItem';
 import Modal from '../Modal/Modal';
 

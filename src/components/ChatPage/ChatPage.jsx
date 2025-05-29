@@ -6,7 +6,7 @@ import ChatTextarea from "../ChatTextarea/ChatTextarea";
 import './ChatPage.css';
 import chatsData from '../../assets/chats.json';
 import messagesData from '../../assets/messages.json'
-import { useUser } from "../../contextProviders/UserProvider";
+import { useUser } from '../../hooks/useUser';
 import useSyncLocalstorage from '../../hooks/useSyncLocalstorage';
 import sendMessage from "../../api/api";
 import { PiSpinnerGap } from "react-icons/pi";

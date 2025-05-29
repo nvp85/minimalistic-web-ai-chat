@@ -1,9 +1,8 @@
-import users from "../../assets/users.json";
 import { Link, useNavigate, Navigate } from 'react-router';
 import { useState } from "react";
 import { LuEye, LuEyeOff } from "react-icons/lu";
 import './SignIn.css';
-import { useUser } from "../../contextProviders/UserProvider";
+import { useUser } from '../../hooks/useUser';
 
 export default function SignIn() {
     const [formData, setFormData] = useState({

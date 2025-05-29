@@ -1,7 +1,7 @@
 import { NavLink } from "react-router";
 import './Navbar.css'
 import { useState, useEffect, useRef } from "react";
-import { useUser } from "../../contextProviders/UserProvider";
+import { useUser } from '../../hooks/useUser';
 import { IoHomeOutline } from "react-icons/io5";
 import Hamburger from 'hamburger-react';
 

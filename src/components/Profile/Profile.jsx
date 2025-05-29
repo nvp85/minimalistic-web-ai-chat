@@ -1,5 +1,6 @@
 import './Profile.css';
 import { Link } from 'react-router';
+import { useUser } from '../../hooks/useUser';
 
 export default function Profile() {
 

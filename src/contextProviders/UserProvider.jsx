@@ -1,9 +1,9 @@
-import { createContext, useContext, useState, useEffect, useSyncExternalStore } from "react";
+import { createContext, useState } from "react";
 import users from '../assets/users.json';
 import chatsData from '../assets/chats.json';
 
 
-const UserContext = createContext();
+export const UserContext = createContext();
 
 export default function UserProvider({children}) {
     const [currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem("user")) || null);
@@ -60,9 +60,4 @@ export default function UserProvider({children}) {
             {children}
         </UserContext.Provider>
     )
-}
-
-// a hook for using the auth context
-export function useUser() {
-    return useContext(UserContext);
 }

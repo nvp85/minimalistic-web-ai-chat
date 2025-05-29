@@ -18,11 +18,6 @@ export default function Navbar() {
         }
     }, [isMenuOpen]);
 
-    function handleBlur() {
-        // race condition
-        setTimeout(() => {setIsMenuOpen(false)}, 300);
-    }
-
     function handleLogout() {
         navigate("/");
         user.logout();
@@ -54,12 +49,12 @@ export default function Navbar() {
             </div>
             <div id="mobil-nav">
                 <div>
-                    <Hamburger toggled={isMenuOpen} size={20} toggle={setIsMenuOpen}  />
+                    <span  onMouseDown={(e) => e.preventDefault()}><Hamburger toggled={isMenuOpen} size={20} toggle={setIsMenuOpen} /></span>
                     {isMenuOpen &&
                         <div className="nav-links"
                             id="hamburger-menu"
                             ref={menuRef}
-                            onBlur={handleBlur}
+                            onBlur={() => setIsMenuOpen(false)}
                             tabIndex="0">
                             <NavLink to="about">About</NavLink>
                             {isAuthenticated

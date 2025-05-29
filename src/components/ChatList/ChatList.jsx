@@ -26,7 +26,8 @@ export default function ChatList({ currentChatId = null }) {
             if (currentChatId == id) {
                 navigate("/");
             } 
-            deleteChat(id);
+            // a little delay to give it some time to unmount if it's the current chat
+            setTimeout(() => deleteChat(id), 100);
         } catch {
             setError("Failed to delete the chat.");
         } finally {

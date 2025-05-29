@@ -4,7 +4,6 @@ import { Link, useNavigate, useParams, useLocation } from 'react-router';
 import MessageBubble from "../MessageBubble/MessageBubble";
 import ChatTextarea from "../ChatTextarea/ChatTextarea";
 import './ChatPage.css';
-import chatsData from '../../assets/chats.json';
 import messagesData from '../../assets/messages.json'
 import { useUser } from '../../hooks/useUser';
 import useSyncLocalstorage from '../../hooks/useSyncLocalstorage';

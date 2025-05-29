@@ -50,6 +50,7 @@ export default function UserProvider({children}) {
         }
         try {
             saveUser(newUser);
+            localStorage.setItem("chats", JSON.stringify([]));
         } catch {
             throw new Error("Something went wrong. Failed to create an account.")
         }

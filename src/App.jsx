@@ -12,7 +12,7 @@ import ChatList from "./components/ChatList/ChatList";
 import UserProvider from "./contextProviders/UserProvider";
 import ProtectedRoutes from "./components/ProtectedRoutes/ProtectedRoutes";
 import NotFound from "./components/NotFound";
-import ChatListProvider from "./contexts/ChatListProvider";
+import ChatListProvider from './contextProviders/ChatListProvider';
 
 
 function App() {

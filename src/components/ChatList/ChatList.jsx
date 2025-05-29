@@ -36,7 +36,7 @@ export default function ChatList({ currentChatId = null }) {
             // if it's the current chat we don't want to trigger re-rendering of the chat page
             localStorage.removeItem(id);
         } catch {
-            setError("Fail to delete the chat.");
+            setError("Failed to delete the chat.");
         } finally {
             setIsModalOpen(false);
         }
@@ -49,7 +49,7 @@ export default function ChatList({ currentChatId = null }) {
             chat.lastModified = Date.now();
             setChats([...chats.filter(chat => chat.id != id), chat]); 
         } catch {
-            setError("Fail to rename the chat.");
+            setError("Failed to rename the chat.");
         }
     }
 
@@ -67,7 +67,10 @@ export default function ChatList({ currentChatId = null }) {
         <div id="chat-list">
             <h3>Your chats</h3>
             <ul>
-                {displayedChats.map(chat => <ChatListItem chat={chat} key={chat.id} deleteChat={confirmDelete} rename={rename} />)}
+                {displayedChats.length > 0
+                ? displayedChats.map(chat => <ChatListItem chat={chat} key={chat.id} deleteChat={confirmDelete} rename={rename} />)
+                : <li style={{textAlign: "center"}}>The chat list is empty</li>
+                    }
             </ul>
             {currChat && isModalOpen &&
                 <Modal onClose={() => setIsModalOpen(false)}>

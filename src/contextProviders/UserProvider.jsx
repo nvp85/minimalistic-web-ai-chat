@@ -6,10 +6,11 @@ import chatsData from '../assets/chats.json';
 const UserContext = createContext();
 
 export default function UserProvider({children}) {
-    const [currentUser, setCurrentUser] = useState(null);
+    const [currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem("user")) || null);
 
     // save a user object to the local storage
     const saveUser = (user) => {
+        setCurrentUser(user);
         user = JSON.stringify(user);
         localStorage.setItem("user", user);
     }
@@ -22,9 +23,8 @@ export default function UserProvider({children}) {
         }
         try {
             let chats = JSON.stringify(chatsData.filter(chat => user.id == chat.userId));
-            user = JSON.stringify(user);
             setCurrentUser(user);
-            localStorage.setItem("user", user);
+            localStorage.setItem("user", JSON.stringify(user));
             localStorage.setItem("chats", chats);
         } catch {
             // rethrow with our own message
@@ -34,6 +34,7 @@ export default function UserProvider({children}) {
 
     // remove the user from the storage
     const logout = () => {
+        setCurrentUser(null);
         localStorage.removeItem("user");
         const chats = JSON.parse(localStorage.getItem("chats"));
         if (chats) {

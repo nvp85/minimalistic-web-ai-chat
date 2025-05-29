@@ -37,7 +37,7 @@ export default function Navbar() {
                                 : <NavLink to="profile">Profile</NavLink>
                         }
 
-                        <button onClick={user.removeUser} className="btn">Logout</button>
+                        <button onClick={user.logout} className="btn">Logout</button>
                     </>)
                     : (<>
                         <NavLink to="login">Sign In</NavLink>
@@ -59,7 +59,7 @@ export default function Navbar() {
                                 ? (<>
                                     <NavLink to="chats" id="chats-link">Chats</NavLink>
                                     <NavLink to="profile">Profile</NavLink>
-                                    <button onClick={user.removeUser} className="btn">Logout</button>
+                                    <button onClick={user.logout} className="btn">Logout</button>
                                 </>)
                                 : (<>
                                     <NavLink to="login">Sign In</NavLink>

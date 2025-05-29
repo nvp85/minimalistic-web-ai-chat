@@ -1,50 +1,61 @@
 import { createContext, useContext, useState, useEffect, useSyncExternalStore } from "react";
-import useSyncLocalstorage from "../hooks/useSyncLocalstorage";
+import users from '../assets/users.json';
 import chatsData from '../assets/chats.json';
 
-// this context provider is in sync with localStorage and provides the user object to all the children
+
 const UserContext = createContext();
 
-// returns the current user from the local storage
-let lastSnapshot; // must be hashed to avoid infinite loop of re-rendering
-function getSnapshot() {
-    const currentUser = localStorage.getItem("user");
-    if (currentUser !== JSON.stringify(lastSnapshot)) {
-        lastSnapshot = JSON.parse(currentUser);
-    }
-    return lastSnapshot;
-}
-// subscribes to the local storage changes and returns a cleanup function
-function subscribe(callback) {
-    window.addEventListener('storage', callback);
-    return () => window.removeEventListener('storage', callback);
-}
-
 export default function UserProvider({children}) {
-    const storedUser = useSyncExternalStore(subscribe, getSnapshot);
+    const [currentUser, setCurrentUser] = useState(null);
 
-    // save changes in the user to local storage
-    // TODO: save user and login use should be separated: 
-    // as we dont want to reset the chats any time the user edit their profile
+    // save a user object to the local storage
     const saveUser = (user) => {
-        let chats = JSON.stringify(chatsData.filter(chat => user.id == chat.userId))
         user = JSON.stringify(user);
         localStorage.setItem("user", user);
-        localStorage.setItem("chats", chats);
-        window.dispatchEvent(new StorageEvent('storage', {key: "user", newValue: user}));
     }
+
+    // set up user's data from the json file
+    const login = (email, password) => {
+        const user = users.find(user => user.email === email);
+        if (!user || user.password !== password) {
+            throw new Error("Invalid credentials.");
+        }
+        try {
+            let chats = JSON.stringify(chatsData.filter(chat => user.id == chat.userId));
+            user = JSON.stringify(user);
+            setCurrentUser(user);
+            localStorage.setItem("user", user);
+            localStorage.setItem("chats", chats);
+        } catch {
+            // rethrow with our own message
+            throw new Error("Something went wrong. Failed to login.");
+        }
+    }
+
     // remove the user from the storage
-    const removeUser = () => {
+    const logout = () => {
         localStorage.removeItem("user");
         const chats = JSON.parse(localStorage.getItem("chats"));
-        chats.forEach(chat => localStorage.removeItem(chat.id));
-        localStorage.removeItem("chats");
-        window.dispatchEvent(new StorageEvent('storage', {key: "user", newValue: null}));
+        if (chats) {
+            chats.forEach(chat => localStorage.removeItem(chat.id));
+            localStorage.removeItem("chats");
+        }
     }
 
+    const register = (newUser) => {
+        const duplicate = users.find(user => user.email === newUser.email);
+        if (duplicate) {
+            throw new Error("This email is already in use.");
+        }
+        try {
+            saveUser(newUser);
+        } catch {
+            throw new Error("Something went wrong. Failed to create an account.")
+        }
+    }
 
     return (
-        <UserContext.Provider value={{storedUser, saveUser, removeUser}}>
+        <UserContext.Provider value={{currentUser, login, logout, saveUser, register}}>
             {children}
         </UserContext.Provider>
     )

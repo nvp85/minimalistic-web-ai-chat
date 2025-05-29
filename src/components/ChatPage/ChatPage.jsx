@@ -16,8 +16,8 @@ import NotFound from "../NotFound";
 // displays a side bar with the chat list and an individual chat on the right
 // manages the chat
 export default function ChatPage() {
-	const { storedUser } = useUser();
-	const [chats, setChats, removeChats] = useSyncLocalstorage("chats", chatsData.filter(chat => chat.userId == storedUser.id));
+	const { currentUser } = useUser();
+	const [chats, setChats, removeChats] = useSyncLocalstorage("chats", chatsData.filter(chat => chat.userId == currentUser.id));
 	const [myApiKey, setMyApiKey] = useState("");
 	const location = useLocation();
 	const [loading, setLoading] = useState(location.state ? location.state.generating : false);
@@ -38,7 +38,7 @@ export default function ChatPage() {
 	let chat = null;
 	try {
 		chat = chats.find(chat => chat.id == id);
-		if (!chat || storedUser.id != chat.userId) {
+		if (!chat || currentUser.id != chat.userId) {
 			throw new Error("No chat was found.");
 		}
 	} catch {

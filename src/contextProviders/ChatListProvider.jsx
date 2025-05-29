@@ -5,16 +5,16 @@ import { useUser } from "./UserProvider";
 const ChatListContext = createContext();
 
 export default function ChatListProvider({children}) {
-    const { manageUser } = useUser();
-    const currentUser = manageUser.storedUser;
+    const {currentUser} = useUser();
     const [chats, setChats] = useState([]);
     const [ error, setError ] = useState();
 
     // simulating a call to a backend API to fetch the user's chats
     function fetchChats() {
         const storedChats = localStorage.getItem("chats");
+        // if we have a user but no chats in the storage then it's a new user with an empty chats
         if (!storedChats) {
-            throw new Error("Fail to retrieve the data.");
+            localStorage.setItem("chats", JSON.stringify([]));
         }
         setChats(JSON.parse(storedChats));
     }
@@ -26,7 +26,7 @@ export default function ChatListProvider({children}) {
         try {
             fetchChats();
         } catch {
-            setError("Fail to retrieve the chat list data.");
+            setError("Failed to retrieve the chat list data.");
         }
 
     }, []);
@@ -36,7 +36,7 @@ export default function ChatListProvider({children}) {
         try {
             localStorage.setItem(JSON.stringify(chats));
         } catch {
-            setError("Fail to save the chat list data.");
+            setError("Failed to save the chat list data.");
         }
     }, [chats]);
 

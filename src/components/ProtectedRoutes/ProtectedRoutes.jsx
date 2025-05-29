@@ -5,7 +5,7 @@ import { useUser } from '../../contextProviders/UserProvider';
 export default function ProtectedRoutes() {
     const user = useUser();
 
-    if (!user.storedUser) {
+    if (!user.currentUser) {
         return <Navigate to="login" />
     }
 

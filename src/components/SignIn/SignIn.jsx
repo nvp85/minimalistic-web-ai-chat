@@ -16,7 +16,7 @@ export default function SignIn() {
     const navigate = useNavigate();
 
     // if there is an info in the local storage then user is logged in
-    if (manageUser.storedUser) {
+    if (manageUser.currentUser) {
         return <Navigate to='/' />
     }
 
@@ -30,17 +30,11 @@ export default function SignIn() {
             setError("Please enter a valid email address.");
             return;
         };
-        // check if there is a matching user in the json
-        const user = users.find(user => user.email === formData.email);
-        if (!user || user.password !== formData.password) {
-            setError("Error: invalid credentials.");
-            return;
-        }
         try {
-            manageUser.saveUser(user);  
+            manageUser.login(formData.email, formData.password);  
             navigate("/");  
         } catch (err) {
-            setError("Error: fail to login.");
+            setError(err.message);
         }
     }
 

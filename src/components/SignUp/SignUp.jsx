@@ -48,20 +48,15 @@ export default function SignUp() {
 
         // try to create an acc
         try {
-            const duplicate = users.find(user => user.email === formData.email);
-            if (duplicate) {
-                setFormErrors(["Error: invalid credentials."]);
-                return;
-            }
             const user = {
                 name: formData.name,
                 email: formData.email,
                 password: formData.password,
             }
-            manageUser.saveUser(user);
+            manageUser.register(user);
             navigate("/");
         } catch (err) {
-            setFormErrors(["Error: Fail to create an account."]);
+            setFormErrors([err.message]);
         }
     }
     function handleChange(e) {

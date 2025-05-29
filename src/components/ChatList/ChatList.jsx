@@ -13,8 +13,8 @@ export default function ChatList({ currentChatId = null }) {
     // handles renaming and deletion of a chat
     // chat is an object that has a title, id, userId, and lastModified properties
     // chats is an array of objects 
-    const { storedUser } = useUser();
-    const [chats, setChats, removeChats] = useSyncLocalstorage("chats", chatsData.filter(chat => chat.userId == storedUser.id));
+    const { currentUser } = useUser();
+    const [chats, setChats, removeChats] = useSyncLocalstorage("chats", chatsData.filter(chat => chat.userId == currentUser.id));
     const displayedChats = chats.toSorted((a, b) => b.lastModified - a.lastModified);
     const navigate = useNavigate();
     const [isModalOpen, setIsModalOpen] = useState(false);

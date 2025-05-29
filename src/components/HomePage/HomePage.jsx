@@ -15,7 +15,7 @@ export default function HomePage() {
     // and a chat starter form on the right side
     // when user starts a new chat it navigates the user to an individual chat route
     const manageUser = useUser();
-    const [chats, setChats, removeChats] = useSyncLocalstorage("chats", chatsData.filter(chat => chat.userId == manageUser.storedUser.id)); 
+    const [chats, setChats, removeChats] = useSyncLocalstorage("chats", chatsData.filter(chat => chat.userId == manageUser.currentUser.id)); 
     const [myApiKey, setMyApiKey] = useState("");
     const [error, setError] = useState("");
     const navigate = useNavigate();
@@ -46,7 +46,7 @@ export default function HomePage() {
         const convo = [instructionMessage, firstMessage];
         const chat = {
             id: chatId,
-            userId: manageUser.storedUser.id,
+            userId: manageUser.currentUser.id,
             title: "untitled",
             lastModified: Date.now()
         };

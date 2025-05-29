@@ -7,7 +7,7 @@ import Hamburger from 'hamburger-react';
 
 export default function Navbar() {
     const user = useUser();
-    const isAuthenticated = user.storedUser ? true : false;
+    const isAuthenticated = user.currentUser ? true : false;
     const [isMenuOpen, setIsMenuOpen] = useState();
     const menuRef = useRef();
 
@@ -32,8 +32,8 @@ export default function Navbar() {
                     ? (<>
                         <NavLink to="chats" id="chats-link">Chats</NavLink>
                         {
-                            user.storedUser.name.trim()
-                                ? <NavLink to="profile">Welcome, {user.storedUser.name}</NavLink>
+                            user.currentUser.name.trim()
+                                ? <NavLink to="profile">Welcome, {user.currentUser.name}</NavLink>
                                 : <NavLink to="profile">Profile</NavLink>
                         }
 

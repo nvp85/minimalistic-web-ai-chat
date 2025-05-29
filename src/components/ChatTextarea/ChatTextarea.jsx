@@ -19,6 +19,7 @@ export default function ChatTextarea(props) {
                 value={userInput}
                 onChange={(e) => setUserInput(e.target.value)}
                 placeholder="Ask anything..."
+                maxLength="1000"
                 required>
             </textarea>
             <button type="submit">Send</button>

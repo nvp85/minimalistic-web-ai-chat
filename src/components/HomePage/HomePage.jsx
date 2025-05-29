@@ -68,6 +68,14 @@ export default function HomePage() {
         // has to dispatch the event to notify the chat page about the new messages
         window.dispatchEvent(new StorageEvent('storage', {key: chatId, newValue: JSON.stringify(convo)}));
     }
+    if (!manageUser.currentUser) {
+        return (
+            <>
+                <h1>Landing page</h1>
+                <Link to="login">Sign In to get started</Link>
+            </>
+        )
+    }
 
     return (
         <div className="two-column-container"> 

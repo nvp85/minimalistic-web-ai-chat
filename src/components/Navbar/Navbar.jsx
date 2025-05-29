@@ -1,4 +1,4 @@
-import { NavLink } from "react-router";
+import { NavLink, useNavigate } from "react-router";
 import './Navbar.css'
 import { useState, useEffect, useRef } from "react";
 import { useUser } from '../../hooks/useUser';
@@ -10,6 +10,7 @@ export default function Navbar() {
     const isAuthenticated = user.currentUser ? true : false;
     const [isMenuOpen, setIsMenuOpen] = useState();
     const menuRef = useRef();
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (isMenuOpen) {
@@ -19,6 +20,11 @@ export default function Navbar() {
 
     function handleBlur() {
         setTimeout(() => setIsMenuOpen(false), 100);
+    }
+
+    function handleLogout() {
+        navigate("/");
+        user.logout();
     }
 
     return (
@@ -59,7 +65,7 @@ export default function Navbar() {
                                 ? (<>
                                     <NavLink to="chats" id="chats-link">Chats</NavLink>
                                     <NavLink to="profile">Profile</NavLink>
-                                    <button onClick={user.logout} className="btn">Logout</button>
+                                    <button onClick={handleLogout} className="btn">Logout</button>
                                 </>)
                                 : (<>
                                     <NavLink to="login">Sign In</NavLink>

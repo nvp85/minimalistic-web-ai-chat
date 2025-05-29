@@ -20,7 +20,7 @@ export default function Navbar() {
 
     function handleBlur() {
         // race condition
-        setTimeout(() => {setIsMenuOpen(false)}, 200);
+        setTimeout(() => {setIsMenuOpen(false)}, 300);
     }
 
     function handleLogout() {

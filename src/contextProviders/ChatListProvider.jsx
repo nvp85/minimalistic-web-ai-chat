@@ -2,7 +2,7 @@ import { useState, createContext, useEffect, useContext } from "react";
 import { useUser } from "./UserProvider";
 
 
-const ChatListContext = createContext();
+export const ChatListContext = createContext();
 
 export default function ChatListProvider({children}) {
     const {currentUser} = useUser();
@@ -45,8 +45,4 @@ export default function ChatListProvider({children}) {
             {children}
         </ChatListContext>
     )
-}
-
-export function useChatList() {
-    return useContext(ChatListContext);
 }

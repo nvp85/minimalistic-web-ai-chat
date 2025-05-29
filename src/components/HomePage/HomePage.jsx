@@ -7,6 +7,7 @@ import sendMessage from '../../api/api';
 import './HomePage.css';
 import Modal from '../Modal/Modal';
 import { useChatList } from '../../hooks/useChatList';
+import { isAPIkeyValid } from '../../api/api';
 
 
 export default function HomePage() {
@@ -26,7 +27,7 @@ export default function HomePage() {
 	}, []);
 
     async function startNewChat(userInput) {
-        if (!myApiKey) {
+        if (!myApiKey || !isAPIkeyValid(myApiKey)) {
             setError("Can't send a message. Please set an API key.");
             return;
         }

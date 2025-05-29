@@ -12,6 +12,7 @@ import { PiSpinnerGap } from "react-icons/pi";
 import Modal from '../Modal/Modal';
 import NotFound from "../NotFound";
 import { useChatList } from "../../hooks/useChatList";
+import { isAPIkeyValid } from "../../api/api";
 
 // displays a side bar with the chat list and an individual chat on the right
 // manages the chat
@@ -49,7 +50,7 @@ export default function ChatPage() {
 	}
 
 	async function handleSubmit(userInput) {
-		if (!myApiKey) {
+		if (!myApiKey || !isAPIkeyValid(myApiKey)) {
 			setError("Can't send a message. Please set an API key.");
 			return;
 		}

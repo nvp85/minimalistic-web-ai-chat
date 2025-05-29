@@ -12,18 +12,18 @@ import sendMessage from "../../api/api";
 import { PiSpinnerGap } from "react-icons/pi";
 import Modal from '../Modal/Modal';
 import NotFound from "../NotFound";
+import { useChatList } from "../../hooks/useChatList";
 
 // displays a side bar with the chat list and an individual chat on the right
 // manages the chat
 export default function ChatPage() {
 	const { currentUser } = useUser();
-	const [chats, setChats, removeChats] = useSyncLocalstorage("chats", chatsData.filter(chat => chat.userId == currentUser.id));
+	const {chats, setChats} = useChatList();
 	const [myApiKey, setMyApiKey] = useState("");
 	const location = useLocation();
 	const [loading, setLoading] = useState(location.state ? location.state.generating : false);
 	const [error, setError] = useState("");
 	const chatBottom = useRef();
-	const navigate = useNavigate();
 
 	useEffect(() => {
 		const storedKey = localStorage.getItem("apiKey");
@@ -67,7 +67,7 @@ export default function ChatPage() {
 		];
 		try {
 			setMessages(convo);
-			setChats([...chats.filter(chat => chat.id!=id), {...chat, lastModified: Date.now()}]);
+			setChats(prev => [...prev.filter(chat => chat.id!=id), {...chat, lastModified: Date.now()}]);
 			setLoading(true);
 			const response = await sendMessage(myApiKey, convo);
 			setMessages([

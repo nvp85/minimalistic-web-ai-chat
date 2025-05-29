@@ -12,32 +12,36 @@ import ChatList from "./components/ChatList/ChatList";
 import UserProvider from "./contextProviders/UserProvider";
 import ProtectedRoutes from "./components/ProtectedRoutes/ProtectedRoutes";
 import NotFound from "./components/NotFound";
+import ChatListProvider from "./contexts/ChatListProvider";
 
-// TODO: protected routes
+
 function App() {
-  return (
-    <UserProvider>
-        <BrowserRouter>
-            <Routes>
-                <Route element={<Layout />}>
-                    <Route path="login" element={<SignIn />} />
-                    <Route path="register" element={<SignUp />} />
-                    <Route path="about" element={<AboutPage />} />
+    return (
+        <UserProvider>
+            <ChatListProvider>
+                <BrowserRouter>
+                    <Routes>
+                        <Route element={<Layout />}>
+                            <Route path="login" element={<SignIn />} />
+                            <Route path="register" element={<SignUp />} />
+                            <Route path="about" element={<AboutPage />} />
 
 
-                    <Route element=<ProtectedRoutes /> >
-                        <Route path="" element={<HomePage />} />
-                        <Route path="chats/:id" element={<ChatPage />} />
-                        <Route path="chats" element={<ChatList />} />
-                        <Route path="profile" element={<Profile />} />
-                        <Route path="api-key" element={<APIkeyForm />} />
-                    </Route>
-                    <Route path="*" element={<NotFound />} />
-                </Route>
-            </Routes>
-        </BrowserRouter>
-    </UserProvider>
-  )
+                            <Route element=<ProtectedRoutes /> >
+                                <Route path="" element={<HomePage />} />
+                                <Route path="chats/:id" element={<ChatPage />} />
+                                <Route path="chats" element={<ChatList />} />
+                                <Route path="profile" element={<Profile />} />
+                                <Route path="api-key" element={<APIkeyForm />} />
+                            </Route>
+                            <Route path="*" element={<NotFound />} />
+                        </Route>
+                    </Routes>
+                </BrowserRouter>
+            </ChatListProvider>
+        </UserProvider>
+
+    )
 
 }
 

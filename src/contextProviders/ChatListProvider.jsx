@@ -4,10 +4,10 @@ import { useUser } from "./UserProvider";
 
 export const ChatListContext = createContext();
 
-export default function ChatListProvider({children}) {
-    const {currentUser} = useUser();
+export default function ChatListProvider({ children }) {
+    const { currentUser } = useUser();
     const [chats, setChats] = useState([]);
-    const [ error, setError ] = useState();
+    const [error, setError] = useState();
 
     // simulating a call to a backend API to fetch the user's chats
     function fetchChats() {
@@ -40,8 +40,13 @@ export default function ChatListProvider({children}) {
         }
     }, [chats]);
 
+    function deleteChat(id) {
+        setChats(prev => prev.filter(chat => chat.id != id));
+        localStorage.removeItem(id);
+    }
+
     return (
-        <ChatListContext value={{chats, setChats, error}}>
+        <ChatListContext value={{ chats, setChats, deleteChat }}>
             {children}
         </ChatListContext>
     )

@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import { useNavigate, NavLink } from 'react-router';
 import './ChatList.css';
-import useSyncLocalstorage from '../../hooks/useSyncLocalstorage';
-import chatsData from '../../assets/chats.json';
 import { useUser } from '../../hooks/useUser';
 import ChatListItem from '../ChatListItem/ChatListItem';
 import Modal from '../Modal/Modal';
+import { useChatList } from '../../hooks/useChatList';
 
 
 export default function ChatList({ currentChatId = null }) {
@@ -14,7 +13,7 @@ export default function ChatList({ currentChatId = null }) {
     // chat is an object that has a title, id, userId, and lastModified properties
     // chats is an array of objects 
     const { currentUser } = useUser();
-    const [chats, setChats, removeChats] = useSyncLocalstorage("chats", chatsData.filter(chat => chat.userId == currentUser.id));
+    const {chats, setChats, deleteChat} = useChatList();
     const displayedChats = chats.toSorted((a, b) => b.lastModified - a.lastModified);
     const navigate = useNavigate();
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -22,19 +21,12 @@ export default function ChatList({ currentChatId = null }) {
     const [currChat, setCurrChat] = useState(null);
     const [error, setError] = useState("");
 
-    function deleteChat(id) { 
+    function handleDelete(id) { 
         try {
-            // when we are deleting the current chat
-            // we don't want to notify other components but to navigate to the home page
             if (currentChatId == id) {
-                localStorage.setItem("chats", JSON.stringify(chats.filter(chat => chat.id != id)));
                 navigate("/");
-            } else {
-                setChats(chats.filter(chat => chat.id != id));
-            }
-            // delete the chat messages
-            // if it's the current chat we don't want to trigger re-rendering of the chat page
-            localStorage.removeItem(id);
+            } 
+            deleteChat(id);
         } catch {
             setError("Failed to delete the chat.");
         } finally {
@@ -44,10 +36,10 @@ export default function ChatList({ currentChatId = null }) {
 
     function rename(id, title) {
         try {
-            const chat = chats.find(chat => chat.id == id);
+            const chat = {...chats.find(chat => chat.id == id)};
             chat.title = title;
             chat.lastModified = Date.now();
-            setChats([...chats.filter(chat => chat.id != id), chat]); 
+            setChats(prev => [...prev.filter(chat => chat.id != id), chat]); 
         } catch {
             setError("Failed to rename the chat.");
         }
@@ -76,7 +68,7 @@ export default function ChatList({ currentChatId = null }) {
                 <Modal onClose={() => setIsModalOpen(false)}>
                     <h3>Do you want to delete this chat?</h3>
                     <p>{currChat.title}</p>
-                    <button onClick={() => deleteChat(currChat.id)} className='delete-btn btn'>Delete</button>
+                    <button onClick={() => handleDelete(currChat.id)} className='delete-btn btn'>Delete</button>
                 </Modal>
             }
             {

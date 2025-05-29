@@ -4,10 +4,9 @@ import ChatList from "../ChatList/ChatList";
 import ChatTextarea from "../ChatTextarea/ChatTextarea";
 import { useUser } from '../../hooks/useUser';
 import sendMessage from '../../api/api';
-import useSyncLocalstorage from '../../hooks/useSyncLocalstorage';
 import './HomePage.css';
-import chatsData from '../../assets/chats.json';
 import Modal from '../Modal/Modal';
+import { useChatList } from '../../hooks/useChatList';
 
 
 export default function HomePage() {
@@ -15,7 +14,7 @@ export default function HomePage() {
     // and a chat starter form on the right side
     // when user starts a new chat it navigates the user to an individual chat route
     const manageUser = useUser();
-    const [chats, setChats, removeChats] = useSyncLocalstorage("chats", chatsData.filter(chat => chat.userId == manageUser.currentUser.id)); 
+    const {chats, setChats} = useChatList(); 
     const [myApiKey, setMyApiKey] = useState("");
     const [error, setError] = useState("");
     const navigate = useNavigate();
@@ -51,7 +50,7 @@ export default function HomePage() {
             lastModified: Date.now()
         };
         // the new chat goes to local storage
-        setChats([...chats, chat]);
+        setChats(prev => [...prev, chat]);
 
         // sets the value before navigating - it will be available on the chat page
         // and it will subscribe to its changes

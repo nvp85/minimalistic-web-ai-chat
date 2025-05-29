@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate, Link } from 'react-router';
 import ChatList from "../ChatList/ChatList";
 import ChatTextarea from "../ChatTextarea/ChatTextarea";
 import { useUser } from '../../hooks/useUser';

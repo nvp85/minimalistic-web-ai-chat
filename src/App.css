@@ -42,6 +42,7 @@ button {
     margin: 0.5rem;
     padding: 0.5rem;
     font-size: 1.5rem;
+    color: black;
 }
 
 .form {
@@ -114,6 +115,11 @@ button {
         flex-grow: 1;
         text-align: center;
         height: calc(100vh - 8rem);
+    }
+    #chat-textarea {
+        min-width: 30rem;
+        min-height: 8rem;
+        max-height: 8rem;
     }
 
 }

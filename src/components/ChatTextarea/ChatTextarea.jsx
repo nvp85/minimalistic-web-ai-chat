@@ -5,11 +5,14 @@ import './ChatTextarea.css';
 export default function ChatTextarea(props) {
     const handleClick = props.handleClick;
     const [userInput, setUserInput] = useState("");
+    const [ loading, setLoading ] = useState();
 
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
+        setLoading(true);
         e.preventDefault();
-        handleClick(userInput);
         setUserInput("");
+        await handleClick(userInput);
+        setLoading(false);
     }
     return (
         <form className="input-container" onSubmit={handleSubmit}>
@@ -22,7 +25,7 @@ export default function ChatTextarea(props) {
                 maxLength="1000"
                 required>
             </textarea>
-            <button type="submit">Send</button>
+            <button type="submit" disabled={loading}>Send</button>
         </form>
     )
 }

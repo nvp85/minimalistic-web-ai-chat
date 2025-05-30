@@ -3,3 +3,9 @@
     flex-direction: column;
     justify-content: center;
 }
+
+
+#landing-pic > img {
+    height: 30vh;
+    margin-top: 5%;
+}

@@ -8,6 +8,7 @@ import './HomePage.css';
 import Modal from '../Modal/Modal';
 import { useChatList } from '../../hooks/useChatList';
 import { isAPIkeyValid } from '../../api/api';
+import bot from '../../assets/chat-bot.png';
 
 
 export default function HomePage() {
@@ -60,8 +61,12 @@ export default function HomePage() {
     if (!manageUser.currentUser) {
         return (
             <>
-                <h1>Landing page</h1>
-                <Link to="login">Sign In to get started</Link>
+                
+                <div id="landing-pic"><img src={bot} alt="A cartoonish picture of a robot" /></div>
+                <h1>Welcome to my demo project</h1>
+                <h2>A minimalistic web interface for chatting with an LLM</h2>
+                <p>To try it out please login as a demo user or create a new account.</p>
+                <Link to="login">Try it out</Link>
             </>
         )
     }

@@ -31,19 +31,17 @@ export default function HomePage() {
             setError("Can't send a message. Please set an API key.");
             return;
         }
+        if (!userInput.trim()) {
+			setError("Your message should not be empty.");
+			return;
+		}
         const chatId = crypto.randomUUID();
         const instructionMessage = {
             role: "developer",
             content: "Be succinct. Answer in 3-5 sentences."
         };
-        // TODO: validate the first message
-        const firstMessage = {
-            role: "user",
-            content: userInput
-        };
         // TODO: generate a title (probably as a separate convo)
         // untitled chat for now
-        const convo = [instructionMessage, firstMessage];
         const chat = {
             id: chatId,
             userId: manageUser.currentUser.id,
@@ -55,18 +53,9 @@ export default function HomePage() {
 
         // sets the value before navigating - it will be available on the chat page
         // and it will subscribe to its changes
-        localStorage.setItem(chat.id, JSON.stringify(convo));
-        navigate(`chats/${chatId}`, {state: {generating: true}});
-
-        // TODO: what if the response is not successful?
-        const response = await sendMessage(myApiKey, convo);
-        convo.push({
-            role: "assistant",
-            content: response
-        });
-        localStorage.setItem(chat.id, JSON.stringify(convo));
-        // has to dispatch the event to notify the chat page about the new messages
-        window.dispatchEvent(new StorageEvent('storage', {key: chatId, newValue: JSON.stringify(convo)}));
+        localStorage.setItem(chat.id, JSON.stringify([instructionMessage]));
+        // passes the first message to the chat page that will send it
+        navigate(`chats/${chatId}`, {state: {firstMessage: userInput}});
     }
     if (!manageUser.currentUser) {
         return (

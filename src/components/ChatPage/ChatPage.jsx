@@ -19,22 +19,16 @@ import { isAPIkeyValid } from "../../api/api";
 export default function ChatPage() {
 	const { currentUser } = useUser();
 	const {chats, setChats} = useChatList();
-	const [myApiKey, setMyApiKey] = useState("");
+	const [myApiKey, setMyApiKey] = useState(localStorage.getItem("apiKey") || "");
 	const location = useLocation();
-	const [loading, setLoading] = useState(location.state ? location.state.generating : false);
+	const [loading, setLoading] = useState(location.state?.firstMessage ? true : false);
 	const [error, setError] = useState("");
 	const chatBottom = useRef();
-
-	useEffect(() => {
-		const storedKey = localStorage.getItem("apiKey");
-		if (storedKey) {
-			setMyApiKey(storedKey);
-		}
-	}, []);
-
-	// extracts uuid of the chat and fetch its messages from the backend
+	// extracts uuid of the chat
 	const { id } = useParams();
+	// fetch chats messages from the local storage
 	const [messages, setMessages, removeMessages] = useSyncLocalstorage(id, messagesData[id] || []);
+	
 	let chat = null;
 	try {
 		chat = chats.find(chat => chat.id == id);
@@ -45,7 +39,21 @@ export default function ChatPage() {
 		return <NotFound />
 	}
 
-	if (messages.at(-1).role === "assistant" && loading) {
+	useEffect(() => {
+		if (location.state?.firstMessage && 
+			messages.at(-1).role === "developer") {
+			try {
+				handleSubmit(location.state.firstMessage);
+			} catch {
+				setError("Something went wrong. Failed to start the chat.");
+				setLoading(false);
+			} finally {
+				window.history.replaceState({}, '');
+			}
+		}
+	}, [id]);
+
+	if (messages.length && messages.at(-1).role === "assistant" && loading) {
 		setLoading(false);
 	}
 

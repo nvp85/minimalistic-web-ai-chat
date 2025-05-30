@@ -12,23 +12,24 @@ import { PiSpinnerGap } from "react-icons/pi";
 import Modal from '../Modal/Modal';
 import NotFound from "../NotFound";
 import { useChatList } from "../../hooks/useChatList";
-import { isAPIkeyValid } from "../../api/api";
+import { isAPIkeyValid, generateTitle } from "../../api/api";
 
 // displays a side bar with the chat list and an individual chat on the right
 // manages the chat
 export default function ChatPage() {
 	const { currentUser } = useUser();
-	const {chats, setChats} = useChatList();
+	const { chats, setChats } = useChatList();
 	const [myApiKey, setMyApiKey] = useState(localStorage.getItem("apiKey") || "");
 	const location = useLocation();
 	const [loading, setLoading] = useState(location.state?.firstMessage ? true : false);
 	const [error, setError] = useState("");
 	const chatBottom = useRef();
+	let needsTitle = location.state?.firstMessage ? true : false;
 	// extracts uuid of the chat
 	const { id } = useParams();
 	// fetch chats messages from the local storage
 	const [messages, setMessages, removeMessages] = useSyncLocalstorage(id, messagesData[id] || []);
-	
+
 	let chat = null;
 	try {
 		chat = chats.find(chat => chat.id == id);
@@ -40,7 +41,7 @@ export default function ChatPage() {
 	}
 
 	useEffect(() => {
-		if (location.state?.firstMessage && 
+		if (location.state?.firstMessage &&
 			messages.at(-1).role === "developer") {
 			try {
 				handleSubmit(location.state.firstMessage);
@@ -52,6 +53,20 @@ export default function ChatPage() {
 			}
 		}
 	}, [id]);
+
+	useEffect(() => {
+		if (needsTitle) {
+			try {
+				generateTitle(myApiKey, location.state?.firstMessage).then((title) => {
+					setChats(prev => [...prev.filter(chat => chat.id != id), { ...chat, title: title }]);
+				});
+			} catch {
+				// if it fails it fails.
+			} finally {
+				needsTitle = false;
+			}
+		};
+	}, []);
 
 	if (messages.length && messages.at(-1).role === "assistant" && loading) {
 		setLoading(false);
@@ -75,13 +90,13 @@ export default function ChatPage() {
 		];
 		try {
 			setMessages(convo);
-			setChats(prev => [...prev.filter(chat => chat.id!=id), {...chat, lastModified: Date.now()}]);
+			setChats(prev => [...prev.filter(chat => chat.id != id), { ...chat, lastModified: Date.now() }]);
 			setLoading(true);
 			const response = await sendMessage(myApiKey, convo);
 			setMessages([
-				...convo, 
+				...convo,
 				{
-					role:"assistant",
+					role: "assistant",
 					content: response
 				}
 			]);
@@ -89,12 +104,13 @@ export default function ChatPage() {
 			setError("Something went wrong. Response wasn't generated.");
 		} finally {
 			setLoading(false);
-		}		
+		}
 	}
 	// scroll to the bottom of the chat
 	useEffect(() => {
-		chatBottom.current.scrollIntoView({behavior: 'smooth'});
+		chatBottom.current.scrollIntoView({ behavior: 'smooth' });
 	}, [loading]);
+
 
 	return (
 		<div className="two-column-container">
@@ -106,9 +122,9 @@ export default function ChatPage() {
 				<div id="chatbox">
 					{messages.map((message, index) => <MessageBubble message={message} key={index} />)}
 					{loading
-						&& <p>generating response <PiSpinnerGap className="spinner"/></p>}
+						&& <p>generating response <PiSpinnerGap className="spinner" /></p>}
 					{
-						error && 
+						error &&
 						<Modal onClose={() => setError("")} btnText='Close'>
 							<h3>Error</h3>
 							<p className='red-text'>{error}</p>
@@ -118,7 +134,7 @@ export default function ChatPage() {
 					<div ref={chatBottom} />
 				</div>
 				<div id="chat-input-box">
-                    <ChatTextarea handleClick={handleSubmit} />
+					<ChatTextarea handleClick={handleSubmit} />
 				</div>
 			</div>
 		</div>

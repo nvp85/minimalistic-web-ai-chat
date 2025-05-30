@@ -12,6 +12,7 @@ export default function ChatListItem({chat, deleteChat, rename}) {
 
     function handleClick() {
         setEditing(true);
+        setNewTitle(chat.title);
     }
 
     function handleSubmit(e) {

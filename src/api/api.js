@@ -13,6 +13,21 @@ export default async function sendMessage(key, messages) {
     return response;
 }
 
+export async function generateTitle(key, text) {
+    const prompt = [
+        {
+            role: "developer",
+            content: "Generate a title for the user's text. No more than 5 words."
+        },
+        {
+            role: "user",
+            content: text
+        }
+    ];
+    const title = await sendMessage(key, prompt);
+    return title;
+}
+
 export function isAPIkeyValid(key) {
     // found the regexp on the internet
     const OPENAI_API_KEY_REGEX = /^sk-(?:proj-)?[A-Za-z0-9_-]{20,}T3BlbkFJ[A-Za-z0-9_-]{20,}$/;

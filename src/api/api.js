@@ -1,19 +1,19 @@
-import OpenAI from "openai";
 
 
 // TODO: check if the convo contains less tokens than the models context window size
-export default async function sendMessage(key, messages) {
-    const client = new OpenAI({ apiKey: key, dangerouslyAllowBrowser: true });
-    const completion = await client.chat.completions.create({
-        model: "gpt-4o-mini",
-        messages: messages,
-        max_tokens: 200
-    });
-    const response = completion.choices[0].message.content;
-    return response;
+export default async function sendMessage(key=null, messages) {
+    const response = await fetch('/.netlify/functions/proxy', {
+        method: 'POST',
+        body: JSON.stringify(messages)
+      });
+    if (response.statusCode == 500) {
+        throw new Error(result);
+    }
+    const result = await response.json();
+    return result;
 }
 
-export async function generateTitle(key, text) {
+export async function generateTitle(key=null, text) {
     const prompt = [
         {
             role: "developer",

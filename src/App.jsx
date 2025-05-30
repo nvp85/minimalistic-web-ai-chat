@@ -6,7 +6,6 @@ import HomePage from "./components/HomePage/HomePage";
 import ChatPage from "./components/ChatPage/ChatPage";
 import Profile from "./components/Profile/Profile";
 import './App.css';
-import APIkeyForm from "./components/APIkeyForm/APIkeyForm";
 import AboutPage from "./components/AboutPage/AboutPage";
 import ChatList from "./components/ChatList/ChatList";
 import UserProvider from "./contextProviders/UserProvider";
@@ -31,7 +30,6 @@ function App() {
                                 <Route path="chats/:id" element={<ChatPage />} />
                                 <Route path="chats" element={<ChatList />} />
                                 <Route path="profile" element={<Profile />} />
-                                <Route path="api-key" element={<APIkeyForm />} />
                             </Route>
                             <Route path="*" element={<NotFound />} />
                         </Route>

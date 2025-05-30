@@ -1,7 +1,7 @@
 
 
 // TODO: check if the convo contains less tokens than the models context window size
-export default async function sendMessage(key=null, messages) {
+export default async function sendMessage(messages) {
     const response = await fetch('/.netlify/functions/proxy', {
         method: 'POST',
         body: JSON.stringify(messages)
@@ -13,7 +13,7 @@ export default async function sendMessage(key=null, messages) {
     return result;
 }
 
-export async function generateTitle(key=null, text) {
+export async function generateTitle(text) {
     const prompt = [
         {
             role: "developer",
@@ -24,15 +24,6 @@ export async function generateTitle(key=null, text) {
             content: text
         }
     ];
-    const title = await sendMessage(key, prompt);
+    const title = await sendMessage(prompt);
     return title;
-}
-
-export function isAPIkeyValid(key) {
-    // found the regexp on the internet
-    const OPENAI_API_KEY_REGEX = /^sk-(?:proj-)?[A-Za-z0-9_-]{20,}T3BlbkFJ[A-Za-z0-9_-]{20,}$/;
-    if (OPENAI_API_KEY_REGEX.test(key)) {
-        return true;
-    }
-    return false;
 }

@@ -3,11 +3,9 @@ import { useNavigate, Link } from 'react-router';
 import ChatList from "../ChatList/ChatList";
 import ChatTextarea from "../ChatTextarea/ChatTextarea";
 import { useUser } from '../../hooks/useUser';
-import sendMessage from '../../api/api';
 import './HomePage.css';
 import Modal from '../Modal/Modal';
 import { useChatList } from '../../hooks/useChatList';
-import { isAPIkeyValid } from '../../api/api';
 import bot from '../../assets/chat-bot.png';
 
 
@@ -16,26 +14,16 @@ export default function HomePage() {
     // and a chat starter form on the right side
     // when user starts a new chat it navigates the user to an individual chat route
     const manageUser = useUser();
-    const {chats, setChats} = useChatList(); 
-    const [myApiKey, setMyApiKey] = useState("");
+    const { chats, setChats } = useChatList();
     const [error, setError] = useState("");
     const navigate = useNavigate();
-    useEffect(() => {
-		const storedKey = localStorage.getItem("apiKey");
-		if (storedKey) {
-			setMyApiKey(storedKey);
-		} 
-	}, []);
+
 
     async function startNewChat(userInput) {
-        if (!myApiKey || !isAPIkeyValid(myApiKey)) {
-            setError("Can't send a message. Please set an API key.");
+        if (!userInput.trim()) {
+            setError("Your message should not be empty.");
             return;
         }
-        if (!userInput.trim()) {
-			setError("Your message should not be empty.");
-			return;
-		}
         const chatId = crypto.randomUUID();
         const instructionMessage = {
             role: "developer",
@@ -56,12 +44,12 @@ export default function HomePage() {
         // and it will subscribe to its changes
         localStorage.setItem(chat.id, JSON.stringify([instructionMessage]));
         // passes the first message to the chat page that will send it
-        navigate(`chats/${chatId}`, {state: {firstMessage: userInput}});
+        navigate(`chats/${chatId}`, { state: { firstMessage: userInput } });
     }
     if (!manageUser.currentUser) {
         return (
             <>
-                
+
                 <div id="landing-pic"><img src={bot} alt="A cartoonish picture of a robot" /></div>
                 <h1>Welcome to my demo project</h1>
                 <h2>A minimalistic web interface for chatting with an LLM</h2>
@@ -72,20 +60,19 @@ export default function HomePage() {
     }
 
     return (
-        <div className="two-column-container"> 
+        <div className="two-column-container">
             <div>
-                <ChatList chats={chats} />            
+                <ChatList chats={chats} />
             </div>
             <div id="right-column">
                 <ChatTextarea handleClick={startNewChat} />
                 {
-                    error && 
+                    error &&
                     <Modal onClose={() => setError("")} btnText='Close'>
                         <h3>Error</h3>
                         <p className='red-text'>{error}</p>
-                        {!myApiKey && error.includes("API") && <p><Link to="/api-key">Set API key</Link></p>}
                     </Modal>
-				}
+                }
             </div>
         </div>
     )

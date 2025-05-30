@@ -12,14 +12,13 @@ import { PiSpinnerGap } from "react-icons/pi";
 import Modal from '../Modal/Modal';
 import NotFound from "../NotFound";
 import { useChatList } from "../../hooks/useChatList";
-import { isAPIkeyValid, generateTitle } from "../../api/api";
+import { generateTitle } from "../../api/api";
 
 // displays a side bar with the chat list and an individual chat on the right
 // manages the chat
 export default function ChatPage() {
 	const { currentUser } = useUser();
 	const { chats, setChats } = useChatList();
-	const [myApiKey, setMyApiKey] = useState(localStorage.getItem("apiKey") || "");
 	const location = useLocation();
 	const [loading, setLoading] = useState(location.state?.firstMessage ? true : false);
 	const [error, setError] = useState("");
@@ -57,7 +56,7 @@ export default function ChatPage() {
 	useEffect(() => {
 		if (needsTitle) {
 			try {
-				generateTitle(myApiKey, location.state?.firstMessage).then((title) => {
+				generateTitle(location.state?.firstMessage).then((title) => {
 					setChats(prev => [...prev.filter(chat => chat.id != id), { ...chat, title: title }]);
 				});
 			} catch {
@@ -73,10 +72,6 @@ export default function ChatPage() {
 	}
 
 	async function handleSubmit(userInput) {
-		if (!myApiKey || !isAPIkeyValid(myApiKey)) {
-			setError("Can't send a message. Please set an API key.");
-			return;
-		}
 		if (!userInput.trim()) {
 			setError("Your message should not be empty.");
 			return;
@@ -92,7 +87,7 @@ export default function ChatPage() {
 			setMessages(convo);
 			setChats(prev => [...prev.filter(chat => chat.id != id), { ...chat, lastModified: Date.now() }]);
 			setLoading(true);
-			const response = await sendMessage(myApiKey, convo);
+			const response = await sendMessage(convo);
 			setMessages([
 				...convo,
 				{
@@ -128,7 +123,6 @@ export default function ChatPage() {
 						<Modal onClose={() => setError("")} btnText='Close'>
 							<h3>Error</h3>
 							<p className='red-text'>{error}</p>
-							{!myApiKey && error.includes("API") && <p><Link to="/api-key">Set API key</Link></p>}
 						</Modal>
 					}
 					<div ref={chatBottom} />

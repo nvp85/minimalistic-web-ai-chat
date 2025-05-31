@@ -6,8 +6,8 @@ export default async function sendMessage(messages) {
         method: 'POST',
         body: JSON.stringify(messages)
       });
-    if (response.statusCode == 500) {
-        throw new Error(result);
+    if (response.status == 500) {
+        throw new Error("API call failed.");
     }
     const result = await response.json();
     return result;

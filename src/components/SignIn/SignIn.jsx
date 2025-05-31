@@ -3,6 +3,7 @@ import { useState } from "react";
 import { LuEye, LuEyeOff } from "react-icons/lu";
 import './SignIn.css';
 import { useUser } from '../../hooks/useUser';
+import { isEmailValid } from '../../utils/utils';
 
 export default function SignIn() {
     const [formData, setFormData] = useState({
@@ -25,7 +26,7 @@ export default function SignIn() {
             setError("Please enter your email and password.");
             return;
         };
-        if (!new RegExp(/\S+@\S+\.\S+/).test(formData.email)) {
+        if (!isEmailValid(formData.email)) {
             setError("Please enter a valid email address.");
             return;
         };
@@ -60,14 +61,15 @@ export default function SignIn() {
                     placeholder="Email"
                     onChange={handleChange}
                     maxLength="150"
-                    required />
+                    required
+                    />
                 <input 
                     type={showPassword ? "text" : "password"} 
                     name="password"
                     value={formData.password}
                     onChange={handleChange}
                     maxLength="150"
-                    required 
+                    required
                     placeholder="Password"/>
                 <button type="button" className="eye-btn" onClick={togglePassword}>
                     {showPassword ? <LuEye /> : <LuEyeOff /> }

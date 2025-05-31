@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useNavigate } from 'react-router';
 import { LuEye, LuEyeOff } from "react-icons/lu";
 import { useUser } from '../../hooks/useUser';
+import { isPasswordValid, isEmailValid, isUsernameValid } from '../../utils/utils';
 
 
 export default function SignUp() {
@@ -17,20 +18,6 @@ export default function SignUp() {
     const [showPassword, setShowPassword] = useState(false);
     const manageUser = useUser();
 
-    function isPasswordValid(password) {
-        let errors = [];
-        if (password.length < 8) {
-            errors.push("Password should be at least 8 characters long.");
-        };
-        if (!/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*()_+{}":;'<>?,./]).*$/.test(password)) {
-            errors.push("Password should include at least one uppercase and one lowercase letter, at least one number, and at least one special character.");
-        };
-        if (/^(?=.*\s).*$/.test(password)) {
-            errors.push("Password should not contain whitespaces.");
-        };
-        return errors.length > 0 ? {ok: false, errors: errors} : {ok: true, errors: []} ;
-    }
-
     // validate the form
     // when a user is created - just save it into the local storage
     function handleSubmit(e) {
@@ -38,8 +25,11 @@ export default function SignUp() {
         const errors = [];
         if (!formData.email || !formData.password) {
             errors.push("Please enter valid email and password.");
-        }
-        errors.push(...isPasswordValid(formData.password)["errors"]);
+        } else if (!isEmailValid(formData.email)) {
+            errors.push("Please enter a valid email address.");
+        };
+        errors.push(...isUsernameValid(formData.name));
+        errors.push(...isPasswordValid(formData.password));
         if (errors.length > 0) {
             setFormErrors(errors);
             return;
@@ -75,7 +65,6 @@ export default function SignUp() {
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
-                    pattern="[A-Za-z0-9\s]+"
                     maxLength="150"
                     />
                 <input 
@@ -85,7 +74,8 @@ export default function SignUp() {
                     value={formData.email}
                     onChange={handleChange}
                     maxLength="150"
-                    required/>
+                    required
+                    />
                 <input 
                     type={showPassword ? "text" : "password"}
                     placeholder="Password" 
@@ -93,7 +83,8 @@ export default function SignUp() {
                     value={formData.password}
                     onChange={handleChange}
                     maxLength="150"
-                    required/>
+                    required
+                    />
                 <button type="button" className="eye-btn" onClick={() => setShowPassword(prev => !prev)}>
                     {showPassword ? <LuEye /> : <LuEyeOff /> }
                 </button>

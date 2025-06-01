@@ -1,12 +1,13 @@
 import { useState, useRef, useEffect } from 'react';
+import { FiEdit3 } from "react-icons/fi";
+import { TiTickOutline } from "react-icons/ti";
 
 export default function ProfileTableRow(props) {
     const { field, value, saveChanges } = props;
     const [editing, setEditing] = useState(false);
     const [newValue, setNewValue] = useState(value);
     const editImput = useRef();
-    // TODO: validate input
-    // show error
+
     function handleSave() {
         saveChanges(field, newValue);
         setEditing(false);
@@ -40,8 +41,13 @@ export default function ProfileTableRow(props) {
             <td>
                 {
                     editing
-                        ? <button onClick={handleSave} onMouseDown={(e) => e.preventDefault()}>Save</button>
-                        : <button onClick={handleEdit}>Edit</button>
+                        ? <button
+                            onClick={handleSave}
+                            onMouseDown={(e) => e.preventDefault()}
+                            className='icon-btn'><TiTickOutline /></button>
+                        : <button
+                            onClick={handleEdit}
+                            className='icon-btn'><FiEdit3 /></button>
                 }
             </td>
         </tr>

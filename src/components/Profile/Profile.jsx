@@ -1,6 +1,5 @@
 import './Profile.css';
 import { useState } from 'react';
-import { Link } from 'react-router';
 import { useUser } from '../../hooks/useUser';
 import ProfileTableRow from './ProfileTableRow';
 import ErrorModal from '../Modal/ErrorModal';
@@ -9,7 +8,7 @@ import { isUsernameValid, isEmailValid } from '../../utils/utils';
 export default function Profile() {
     const { currentUser, saveUser } = useUser();
     const [errors, setErrors] = useState([]);
-    // TODO: validate input
+
     function saveChanges(field, newValue) {
         const errors = [];
         if (field === "name") {
@@ -38,13 +37,10 @@ export default function Profile() {
                     <ProfileTableRow field="email" value={currentUser.email} saveChanges={saveChanges} />
                 </tbody>
             </table>
-            {
-                errors.length > 0
+            {errors.length > 0
                 && <ErrorModal onClose={() => setErrors([])}>
                     {errors.map(error => <p className='red-text'>{error}</p>)}
-                </ErrorModal>
-            }
-
+                </ErrorModal>}
         </div>
     )
 }

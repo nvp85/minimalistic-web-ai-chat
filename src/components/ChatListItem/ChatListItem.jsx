@@ -5,7 +5,7 @@ import { useState, useEffect, useRef } from 'react';
 import { TiTickOutline } from "react-icons/ti";
 
 
-export default function ChatListItem({chat, deleteChat, rename}) {
+export default function ChatListItem({ chat, deleteChat, rename }) {
     const [editing, setEditing] = useState(false);
     const [newTitle, setNewTitle] = useState(chat.title);
     const editImput = useRef();
@@ -32,7 +32,7 @@ export default function ChatListItem({chat, deleteChat, rename}) {
     }, [editing])
 
     return (<li className='chat-list-item'>
-        {editing 
+        {editing
             ? (
                 <form onSubmit={handleSubmit}>
                     <input
@@ -43,14 +43,17 @@ export default function ChatListItem({chat, deleteChat, rename}) {
                         ref={editImput}
                         maxLength="50"
                     />
-                    <button type="submit"><TiTickOutline size="2rem"/></button>
+                    <button type="submit" className='icon-btn'><TiTickOutline size="2rem" /></button>
                 </form>)
             : (
                 <>
                     <span className='chat-title'><NavLink to={`/chats/${chat.id}`} >{chat.title}</NavLink></span>
-                    <button onClick={handleClick}><FiEdit3 /></button>
-                    <button onClick={() => deleteChat(chat)} value={chat.id}><RiDeleteBinLine /></button>
+                    <button onClick={handleClick} className='icon-btn'><FiEdit3 /></button>
+                    <button
+                        onClick={() => deleteChat(chat)}
+                        value={chat.id}
+                        className='icon-btn'><RiDeleteBinLine /></button>
                 </>
             )}
-        </li>)
+    </li>)
 }

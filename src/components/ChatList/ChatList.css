@@ -40,15 +40,6 @@ li>span>a:hover {
     text-decoration: underline;
 }
 
-.chat-list-item>button {
-    background-color: transparent;
-    border: none;
-}
-
-.chat-list-item>button:hover {
-    background-color: lightgray;
-}
-
 .list-title {
     width: 50%;
     overflow: hidden;

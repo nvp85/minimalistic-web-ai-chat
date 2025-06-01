@@ -116,6 +116,7 @@ button {
         text-align: center;
         height: calc(100vh - 8rem);
     }
+
     #chat-textarea {
         min-width: 30rem;
         min-height: 8rem;
@@ -134,4 +135,13 @@ button {
 .delete-btn:hover {
     background-color: red;
     color: white;
+}
+
+.icon-btn {
+    background-color: transparent;
+    border: none;
+}
+
+.icon-btn:hover {
+    background-color: lightgray;
 }

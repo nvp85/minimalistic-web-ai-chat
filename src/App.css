@@ -83,6 +83,10 @@ button {
     color: red;
 }
 
+.bold-text {
+    font-weight: bold;
+}
+
 .btn {
     background-color: white;
     width: 8rem;
@@ -123,11 +127,20 @@ button {
         max-height: 8rem;
     }
 
+    .form-container {
+        max-width: 70%;
+        margin: 15%;
+        transform: none;
+    }
+
 }
 
 @media (max-width: 1200px) {
     .two-column-container>div:first-child {
         display: none;
+    }
+    #chat-title {
+        display: block;
     }
 }
 

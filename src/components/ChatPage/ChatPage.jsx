@@ -114,6 +114,7 @@ export default function ChatPage() {
 				<p><Link to="/">Start new chat</Link></p>
 			</div>
 			<div id="chat-container">
+				<div id="chat-title"><span className="bold-text">Title:</span> {chat.title}</div>
 				<div id="chatbox">
 					{messages.map((message, index) => <MessageBubble message={message} key={index} />)}
 					{loading

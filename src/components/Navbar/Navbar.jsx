@@ -42,7 +42,7 @@ export default function Navbar() {
             </div>
             <div id="mobil-nav">
                 <div>
-                    <Hamburger toggled={isMenuOpen} toggle={setIsMenuOpen} />
+                    <Hamburger toggled={isMenuOpen} size={22} toggle={setIsMenuOpen} />
                     {isMenuOpen &&
                         <div className="nav-links"
                             id="hamburger-menu"

@@ -140,7 +140,14 @@ button {
         display: none;
     }
     #chat-title {
+        position: absolute;
+        top: 0;
+        background-color: white;
+        border-radius: 2rem;
+        border:solid 1px lightgray;
+        padding: 0.3rem;
         display: block;
+        box-shadow: 0.5rem 0.5rem 1rem lightgray ;
     }
 }
 

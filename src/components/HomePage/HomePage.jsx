@@ -48,14 +48,13 @@ export default function HomePage() {
     }
     if (!manageUser.currentUser) {
         return (
-            <>
+            <div id="landing">
 
                 <div id="landing-pic"><img src={bot} alt="A cartoonish picture of a robot" /></div>
                 <h1>Welcome to my demo project</h1>
                 <h2>A minimalistic web interface for chatting with an LLM</h2>
-                <p>To try it out please login as a demo user or create a new account.</p>
-                <Link to="login">Try it out</Link>
-            </>
+                <p>To try it out please <Link to="login">login</Link> as a demo user or <Link to="register">create</Link> a new account.</p>
+            </div>
         )
     }
 

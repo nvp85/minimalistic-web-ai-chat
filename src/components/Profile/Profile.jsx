@@ -3,12 +3,30 @@ import { useState } from 'react';
 import { Link } from 'react-router';
 import { useUser } from '../../hooks/useUser';
 import ProfileTableRow from './ProfileTableRow';
+import ErrorModal from '../Modal/ErrorModal';
+import { isUsernameValid, isEmailValid } from '../../utils/utils';
 
 export default function Profile() {
     const { currentUser, saveUser } = useUser();
+    const [errors, setErrors] = useState([]);
     // TODO: validate input
     function saveChanges(field, newValue) {
-        saveUser({...currentUser, [field]: newValue});
+        const errors = [];
+        if (field === "name") {
+            errors.push(...isUsernameValid(newValue));
+        } else if (field === "email" && !isEmailValid(newValue)) {
+            errors.push("Please enter a valid email.");
+        }
+        if (errors.length > 0) {
+            setErrors(errors);
+            return;
+        }
+        try {
+            saveUser({ ...currentUser, [field]: newValue });
+        } catch {
+            setErrors(["Something went wrong. Failed to save the changes."])
+        }
+
     }
 
     return (
@@ -16,10 +34,17 @@ export default function Profile() {
             <h1>User profile</h1>
             <table>
                 <tbody>
-                    <ProfileTableRow field="name" value={currentUser.name} saveChanges={saveChanges}/>
-                    <ProfileTableRow field= "email" value={currentUser.email}  saveChanges={saveChanges}/>
+                    <ProfileTableRow field="name" value={currentUser.name} saveChanges={saveChanges} />
+                    <ProfileTableRow field="email" value={currentUser.email} saveChanges={saveChanges} />
                 </tbody>
             </table>
+            {
+                errors.length > 0
+                && <ErrorModal onClose={() => setErrors([])}>
+                    {errors.map(error => <p className='red-text'>{error}</p>)}
+                </ErrorModal>
+            }
+
         </div>
     )
 }

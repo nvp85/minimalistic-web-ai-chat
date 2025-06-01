@@ -4,7 +4,6 @@ export default function ProfileTableRow(props) {
     const { field, value, saveChanges } = props;
     const [editing, setEditing] = useState(false);
     const [newValue, setNewValue] = useState(value);
-    const [error, setError] = useState("");
     const editImput = useRef();
     // TODO: validate input
     // show error

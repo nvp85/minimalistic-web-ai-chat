@@ -12,17 +12,11 @@ export default function Navbar() {
     const menuRef = useRef();
     const navigate = useNavigate();
 
-    useEffect(() => {
-        if (isMenuOpen) {
-            menuRef.current.focus();
-        }
-    }, [isMenuOpen]);
-
     function handleLogout() {
         navigate("/");
         user.logout();
     }
-
+    
     return (
         <nav>
             <div className="nav-links">
@@ -38,7 +32,6 @@ export default function Navbar() {
                                 ? <NavLink to="profile">Welcome, {user.currentUser.name}</NavLink>
                                 : <NavLink to="profile">Profile</NavLink>
                         }
-
                         <button onClick={user.logout} className="btn">Logout</button>
                     </>)
                     : (<>
@@ -49,13 +42,11 @@ export default function Navbar() {
             </div>
             <div id="mobil-nav">
                 <div>
-                    <span  onMouseDown={(e) => e.preventDefault()}><Hamburger toggled={isMenuOpen} size={20} toggle={setIsMenuOpen} /></span>
+                    <Hamburger toggled={isMenuOpen} toggle={setIsMenuOpen} />
                     {isMenuOpen &&
                         <div className="nav-links"
                             id="hamburger-menu"
-                            ref={menuRef}
-                            onBlur={() => setIsMenuOpen(false)}
-                            tabIndex="0">
+                            ref={menuRef}>
                             <NavLink to="about">About</NavLink>
                             {isAuthenticated
                                 ? (<>

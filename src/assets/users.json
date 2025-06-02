@@ -1,7 +1,7 @@
 [
     {
         "id": 1,
-        "name": "Jane Doe",
+        "name": "DemoUser",
         "email": "demoUser@example.com",
         "password": "qwerty123"
     }

@@ -36,6 +36,11 @@ export default function ChatList({ currentChatId = null }) {
     }
 
     function rename(id, title) {
+        title = title.trim();
+        if (!title) {
+            setError("Title should not be empty.");
+            return;
+        }
         try {
             const chat = {...chats.find(chat => chat.id == id)};
             chat.title = title;
